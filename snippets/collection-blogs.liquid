@@ -1,0 +1,32 @@
+<div class="page-width">
+    <div class="related-articles">
+      <div class="blog-main">
+        {% assign blogposts = collection.metafields.volant.blog %}
+        {% if blogposts != blank %}
+          {% for posts in blogposts %}
+            {% assign list_articles = posts | split: '|' %}
+            {% if list_articles != blank %}
+              {% for article_item in list_articles limit: 4 %}
+                {% assign article = articles[article_item] %}
+                <div class="blog-inner collection-footer">
+                  <div class="blog__article article--vertical">
+                  <div class="blog__image">
+                    <a href="{{ article.url }}"><img src="{{ article.image.src | img_url: '500x500' }}" class="pf-img-loaded"></a>
+                  </div>
+                  <div class="blog__infos">
+                      <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+                  </div>
+                  <div class="article-meta">
+                        <div class="author-data">
+                           <p>{{ article.excerpt }} </p>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+</div>

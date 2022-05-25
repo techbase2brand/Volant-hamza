@@ -1,0 +1,9 @@
+
+@media screen and (min-width:1920px){
+    .enhances_spacing{
+        width: 70% !important;
+    }
+    .enhances_spacing_gap{
+        gap: 20px !important;
+    }
+}

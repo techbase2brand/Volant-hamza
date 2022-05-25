@@ -1,0 +1,42 @@
+{% assign current_year = now | date: "%Y"  %}
+{% assign blog_date_year = article.published_at | date: "%Y"  %}
+<div class="article-meta">
+    <div class="author">
+        <div class="author-avtar">
+            {% if article.user.image %}
+                <img src="{{ article.user.image | img_url: 'master' }}"/>
+            {% else %}
+                <img src="{{ 'blog-default-icon.jpg' | asset_url }}"/>
+            {% endif %}
+        </div>
+        <div class="author-data">
+            <span>
+                <b>{{ article.author }}<br></b>
+                {% if current_year == blog_date_year %}{{ article.published_at | date: "%b %d" }}{% else %}{{ article.published_at | date: "%b %d, %Y" }}{% endif %}&nbsp;· <span class="read-time"></span>
+            </span>
+        </div>
+    </div>
+    <div class="sharing">
+        <ul>
+            <li><a href="http://www.facebook.com/sharer.php?u={{ shop.url }}{{ article.url }}" target="_blank">{% render 'icon-facebook' %}</a></li>
+            <li><a href="https://twitter.com/share?url={{ shop.url }}{{ article.url }}" target="_blank">{% render 'icon-twitter' %}</a></li>
+            <li><a href="mailto:?Subject={{ article.title }}&Body={{ shop.url }}{{ article.url }}" target="_blank">{% render 'icon-email' %}</a></li>
+            <li><a href="http://pinterest.com/pin/create/link/?url={{ shop.url }}{{ article.url }}&description={{ article.title }}" target="_blank">{% render 'icon-pinterest' %}</a></li>
+            <li><a href="https://wa.me/?text={{ shop.url }}{{ article.url }}" target="_blank">{% render 'icon-whatsapp' %}</a></li>
+        </ul>
+        {% comment %}
+        <a href="javascript:void(0)" class="share-post">
+            <svg width="25" height="25" class="r"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg>
+        </a>
+        <span class="share-options">
+            <ul>
+                <li><a href="http://www.facebook.com/sharer.php?u={{ shop.url }}{{ article.url }}" target="_blank">{% render 'icon-facebook' %} <span>Facebook</span></a></li>
+                <li><a href="https://twitter.com/share?url={{ shop.url }}{{ article.url }}" target="_blank">{% render 'icon-twitter' %} <span>Twitter</span></a></li>
+                <li><a href="mailto:?Subject={{ article.title }}&Body={{ shop.url }}{{ article.url }}" target="_blank">{% render 'icon-email' %} <span>Email</span></a></li>
+                <li><a href="http://pinterest.com/pin/create/link/?url={{ shop.url }}{{ article.url }}&description={{ article.title }}" target="_blank">{% render 'icon-pinterest' %} <span>Pinterest</span></a></li>
+                <li><a href="https://wa.me/?text={{ shop.url }}{{ article.url }}" target="_blank">{% render 'icon-whatsapp' %} <span>Whatsapp</span></a></li>
+                <li><a href="fb-messenger://share/?link={{ shop.url }}{{ article.url }}" target="_blank">{% render 'icon-messanger' %} <span>Messanger</span></a></li>
+            </ul>
+        </span>{% endcomment %}
+    </div>
+</div>

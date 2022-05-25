@@ -1,0 +1,149 @@
+<style>
+.error {
+  color:red;
+  display:block;
+}
+  
+.hidden {
+  display: none;
+}
+.preferences {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.preferences p.info {
+  font-size: 15px;
+  margin: 10px 0;
+}
+.preferences h1 {
+  text-transform: uppercase;
+margin: 0 auto;
+width: 90%;
+}
+.preferences .form-input {
+  margin-bottom: 20px;
+}
+.preferences .form-input label {
+  margin-bottom: 10px;
+}
+.preferences .form-input input {
+  width: 300px;
+  border-radius: 8px;
+  background: rgba(255, 238, 223, 0.5);
+  border-color: rgba(255, 238, 223, 0.5);
+}
+.preferences .form-input input:focus {
+    border: 1px solid #ccc;
+}
+  
+.unsubscribe-section a.button,
+.monthly-emails-section a.button {
+   width:40%;
+}
+  
+.preferences a.button {
+    display: block;
+    padding: 8px 15px;
+    border: 1px solid;
+    border-radius: 8px;
+    margin: 0 5px;
+    border: 1px solid rgba(74, 63, 60, 0.2);
+    width: 28%;
+    margin: 5px auto;
+    font-size: 18px;
+    font-family: Muli!important;
+    line-height: 1.50!important;
+    text-transform: capitalize;
+}
+.preferences .btn-alternate {
+  background-color: #deab5b;
+  color: #fff;
+  border-color: #deab5b !important;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.preferences .btn-alternate:hover {
+   
+    background-color: #deab5b;
+    color: #606060
+}
+.unsubscribe-section p,
+.unsubscribe-submitted-section p {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+.unsubscribe-section p > strong {
+  font-weight: 700;
+}
+.preferences .preferences-section {
+  display: none;
+  padding: 0 20px;
+  margin-bottom:70px;
+}
+.preferences .preferences-section.active {
+  display: block;
+}
+.preferences-footer {
+  text-align: center;
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 43px 15px;
+}
+.preferences-footer * {
+  font-family: Muli!important;
+  font-size: 18px!important;
+  line-height: 1.50!important;
+}
+.tr-footer img.royal {
+    margin: 40px auto;
+}
+.tr-footer .cta {
+    color: #fff !important;
+    border: none;
+    border-radius: 8px;
+    background-color: #deab5b;
+    padding: 8px 15px;
+    font-family: Muli;
+    font-weight: 700;
+    text-decoration: none !important;
+    display: inline-block;
+    width: 28%;
+}
+@media only screen and (max-width: 480px) {
+   .preferences .form-input input,
+   .preferences a.button {
+       width: 90%;
+   } 
+   .preferences a.button {
+       margin: 0 auto;
+       margin-bottom: 10px;
+       margin-top: 20px !important;
+   }
+   .preferences-footer * {
+      font-family: Muli!important;
+      font-size: 18px!important;
+      line-height: 1.50!important;
+  }
+.tr-footer .cta {
+    width: 98% !important;
+}
+.preferences p {
+    margin: 0 auto;
+    width: 98%;
+}
+}
+</style>
+<div class="preferences">
+<center>
+<span>Submitted!</span>
+<h1>Coupon sent to your email</h1>
+<p>We also get the message, we won't email you as often as before.</p>
+<p>You'll only receive high value offers and big news <strong>once per month tops.</strong></p>
+<a href="https://volantaroma.co.uk" class="button btn-alternate btn btn--has-icon-after">SHOP NOW</a></center>
+</div>
+<div class="blogfooter preferences-footer">
+  {% render 'trustpilot-review' %}
+
+  {% render 'trustpilot-review-slider' %}
+</div>

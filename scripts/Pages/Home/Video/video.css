@@ -1,0 +1,12 @@
+@media screen and (min-width:1199px){
+    .video-container{
+        width:940px !important;
+        /* height:528px !important; */
+    }
+}
+@media screen and (min-width:1919px){
+    .video-container{
+        width:52% !important;
+        /* height:528px !important; */
+    }
+}

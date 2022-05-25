@@ -1,0 +1,7 @@
+.satisfaction_li{
+    text-indent:12px !important;
+    list-style-position: inside;
+}
+.satisfaction_li span{
+    margin-left: -12px;
+}

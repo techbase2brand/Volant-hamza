@@ -1,0 +1,43 @@
+.headline {
+  font-family: "Hatton";
+}
+
+.font-mulish {
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 768px) {
+ 
+  .custom_bg_banner{
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+  } 
+}
+
+@media screen and (min-width: 769px) {
+ 
+  .custom_bg_banner{
+    background: none !important;
+  } 
+  .mt-e
+  {
+    transform: translate(0px,-14px);
+  }
+}
+@media screen and (min-width:1919px){
+  .banner_heading{
+    /* font-size: 42px !important; */
+    line-height: 52px !important;
+  }
+  .banner_subheading{
+    font-size: 26px !important;
+    line-height: 32.6px !important;
+  }
+}
+.pl-e
+{
+  transform: translate(-10px, 0px);
+}

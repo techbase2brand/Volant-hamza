@@ -1,0 +1,38 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<div id="richsnippet">
+  <div itemscope itemtype="http://schema.org/Product">
+  
+    <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+    <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">  
+    <meta itemprop="name" content="{{ product.title | escape }}">   
+    <meta itemprop="description" content="{{ product.description | strip_html }}"> 
+{% assign current_variant = product.selected_or_first_available_variant %} 
+          <meta itemprop="sku" content="{{ current_variant.sku }}" />
+    <div itemprop="brand" itemtype="https://schema.org/Brand" itemscope>
+        <meta itemprop="name" content="Volantaroma" />
+      </div>
+    
+    <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"> 
+              <link itemprop="url" href="{{ shop.url }}{{ product.url }}" />
+      <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+      <meta itemprop="price" content="{{ current_variant.price | money_without_currency }}">
+      <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+      <meta itemprop="seller" content="{{ shop.domain }}">
+      <meta itemprop="itemcondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition" /> 
+    </div>
+    
+    
+     
+     <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+      <meta itemprop="ratingValue" content="{{ product.metafields.loox.avg_rating }}"/>
+      <meta  itemprop="ratingCount" content="{{ product.metafields.loox.num_reviews }}"/>
+    </div>        
+   
+    
+
+    
+    
+  </div>    
+</div>
+ 

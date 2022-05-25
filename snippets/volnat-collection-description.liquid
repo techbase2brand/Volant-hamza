@@ -1,0 +1,8 @@
+{% if collection.metafields.description.description != blank %}
+<div class="index-section volnat-collection-description">
+    <div class="page-width">
+        {{ collection.metafields.description.description }}
+    </div>
+</div>
+{% endif %}
+{% render 'collection-blogs' %}

@@ -1,0 +1,167 @@
+
+{% if request.design_mode %}
+<style>.pf-ph{font-size:14px!important;background:#fafafa;padding:20px;text-align:center;border:1px solid #f0f0f0;border-radius:4px;margin:15px}.pf-ph span{display:block;background:#e6f7ff;padding:8px 15px;border:1px solid #91d5ff}</style>
+{% endif %}
+{% if section.settings.section_id.size > 0 %}
+  {% assign snippet_name = section.settings.section_id %}
+  {% capture content %}{% include snippet_name %}{% endcapture %}
+  {% if content contains "Liquid error" %}
+    
+    {% if request.design_mode %}
+      <div class="pf-ph">
+        <h3>PageFly Section</h3>
+        <span>No section selected. Please select your section from the list</span>
+      </div>
+    {% endif %}
+  
+  {% else %}
+    {% render 'pagefly-settings' %}
+    {% include snippet_name %}
+  {% endif %}
+  {% else %}
+    
+    {% if request.design_mode %}
+      <div class="pf-ph">
+        <h3>PageFly Section</h3>
+        <span>No section selected. Please select your section from the list</span>
+      </div>
+    {% endif %}
+  
+{% endif %}
+
+{% schema %}
+{
+  "name": "PageFly Section",
+  "settings": [
+    {
+      "id": "section_id",
+      "type": "select",
+      "label": "Sections",
+      "options": [
+        {
+          "label": "Select section",
+          "value": ""
+        },
+        {
+          "label": "FaQ",
+          "value": "pf-3a61b42b"
+        },
+        {
+          "label": "magazines",
+          "value": "pf-f3e9309c"
+        },
+        {
+          "label": "PS",
+          "value": "pf-e628b300"
+        },
+        {
+          "label": "offer",
+          "value": "pf-a91dd0aa"
+        },
+        {
+          "label": "founder",
+          "value": "pf-de2b1b9c"
+        },
+        {
+          "label": "remove chemicals",
+          "value": "pf-ae28806c"
+        },
+        {
+          "label": "volant at a glance",
+          "value": "pf-49765bd3"
+        },
+        {
+          "label": "what is a diffuser",
+          "value": "pf-0f2bf816"
+        },
+        {
+          "label": "icon row",
+          "value": "pf-0d3df915"
+        },
+        {
+          "label": "why use a volant",
+          "value": "pf-928db4b5"
+        },
+        {
+          "label": "Reviews",
+          "value": "pf-7bca8b4a"
+        },
+        {
+          "label": "Diff. vs. others",
+          "value": "pf-76c9d2c8"
+        },
+        {
+          "label": "100% SAT",
+          "value": "pf-7c4e0e79"
+        },
+        {
+          "label": "VID",
+          "value": "pf-1523837d"
+        },
+        {
+          "label": "MAGZ",
+          "value": "pf-3914b2f8"
+        },
+        {
+          "label": "hero desk",
+          "value": "pf-5b01cd41"
+        },
+        {
+          "label": "hero phone",
+          "value": "pf-67f2a7d2"
+        },
+        {
+          "label": "mobile table",
+          "value": "pf-9cb969e5"
+        },
+        {
+          "label": "with table",
+          "value": "pf-309cb969"
+        },
+        {
+          "label": "Comparison",
+          "value": "pf-e9309cb9"
+        },
+        {
+          "label": "Blog  - Trustpilot Reviews",
+          "value": "pf-e7f3e930"
+        },
+        {
+          "label": "watch",
+          "value": "pf-060e28e7"
+        },
+        {
+          "label": "video",
+          "value": "pf-0e28e7f3"
+        },
+        {
+          "label": "Blog Product 2 Column",
+          "value": "pf-28e7f3e9"
+        },
+        {
+          "label": "Blog Featured Product 3",
+          "value": "pf-90b2060e"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": "Find and edit your section on the [section listing](https://apps.pagefly.io/sections)"
+    },
+    {
+      "type": "paragraph",
+      "content": "To add block to a section, please use the App Block element on PageFly section editor."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PageFly Section"
+    }
+  ]
+}
+{% endschema %}

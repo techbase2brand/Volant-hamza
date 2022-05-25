@@ -1,0 +1,127 @@
+.font-hatton {
+    font-family: "Hatton";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 27px;
+}
+.color-red {
+    color: #e80000;
+}
+.font-mulish {
+    font-family: "Mulish";
+    font-style: normal;
+    font-weight: 400;
+}
+
+.volant-diffuser-font {
+    font-family: "Hatton";
+    font-style: normal;
+    font-weight: 400;
+}
+
+.color-active {
+    background: rgba(222, 171, 91, 0.2)
+}
+
+.custom-marker{
+    outline: none;
+}
+
+@media screen and (min-width: 768px) {
+    .box{
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    .thumbnails{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-right: 9px;
+    }
+    .thumbnails img{
+        height: 78px !important;
+    }
+
+    /* .active-thumbnail{
+        display: none;
+    } */
+
+
+
+  
+
+
+.active-thumbnail{
+    border:none;
+}
+
+.carousel-caption-top{
+    text-shadow: none;
+}
+
+.next, .prev{
+    font-size: 30px;
+    color: #8a8a8a;
+}
+@media screen and (max-width:768px) {
+ 
+    .carousel-container {
+        max-height: 355px !important;
+    }
+
+    .color-black.text-center {
+        font-size: 14px !important;
+    }
+    /* .carousel-image{
+        height: 355px !important;
+    }    */
+}
+
+
+
+.arrow{
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 2px;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    margin-bottom: 1px;
+    margin-left: 2px;
+}
+
+details[open] .arrow{
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 2px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    margin-bottom: 2px;
+    margin-left: 2px;
+}
+
+details > summary {
+    list-style: none;
+  }
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+}
+@media only screen and (max-width:430px)
+{
+    .w-custom {
+        width: 82px;
+        margin-top: -14px;
+    }
+    .price-custom {
+        width: 56px;
+        margin-top: -14px;
+    }
+}
+@media only screen and (max-width: 500px)
+{
+.thumbnail {
+    max-width: 83px !important;
+}
+}

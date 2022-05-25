@@ -1,0 +1,35 @@
+   <link rel="shortcut icon" href="https://cdn.shopify.com/s/files/1/0485/7787/2027/files/Volant_Symbol__Gold_32x32.png?v=1600242643" type="image/png">
+   {%- assign full_url = canonical_url | split: '://www.' | last | split: '://' | last -%}
+<link rel="alternate" hreflang="en" href="{{ canonical_url }}">
+<link rel="alternate" hreflang="de" href="https://de.{{ full_url }}">
+<link rel="alternate" hreflang="es" href="https://es.{{ full_url }}">
+<link rel="alternate" hreflang="fi" href="https://fi.{{ full_url }}">
+<link rel="alternate" hreflang="fr" href="https://fr.{{ full_url }}">
+<link rel="alternate" hreflang="nl" href="https://nl.{{ full_url }}">
+<script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+<script>
+    Weglot.initialize({
+        api_key: 'wg_2780f471463ea9ee24d4c1d37db2c0935'
+    });
+</script>
+    <script async src="//loox.io/widget/loox.js?shop=volantaromaeuro.myshopify.com"></script>
+{% layout none %}
+<div id="app" style="overflow-x: hidden;">
+<style>
+.loader{
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif') 
+              50% 50% no-repeat rgb(249,249,249);
+}
+</style>
+<div class="loader"></div>
+  {{ page.content }}
+</div>
+<h1 class="family-hatton text-[22px] hidden md:block leading-[27px] md:leading-[56px] mb-4 pt-12 text-center text-[#000000]">A big thank you to our customers for thousands of reviews so far:</h1>
+    <div id="looxReviews" data-loox-aggregate></div>
+<script defer type="module" src="{{ "index.bundle.js" | asset_url }}"></script> 

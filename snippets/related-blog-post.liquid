@@ -1,0 +1,82 @@
+<h2 data-pf-type="Heading" class="text-center">Other blog posts</h2>
+<div class="related-articles">
+  <div class="blog-main">
+  {% assign counter = 0 %}
+  {% for tag in article.tags %}
+	{% assign skip_articles = article.handle | split: '.....' %}
+	{% assign current_year = now | date: "%Y"  %}
+	{% assign blog_date_year = article.published_at | date: "%Y"  %}
+	{% for related_article in blog.articles %}
+	 {% if related_article.tags contains tag and counter < 3 %}
+		{% unless skip_articles contains related_article.handle %}
+		  {% assign counter = counter | plus: 1 %}
+		  {% assign temp = related_article.handle | split: '.....' %}
+		  {% assign skip_articles = skip_articles | concat: temp %}
+		  <div class="blog-inner">
+			<div class="blog__article article--vertical">
+			<div class="blog__image">
+			  <a href="{{ related_article.url }}"><img data-src="{{ related_article.image.src | img_url: '500x500' }}" class="lazy2"></a>
+			</div>
+			<div class="blog__infos">
+				<h3><a href="{{ related_article.url }}">{{ related_article.title }}</a></h3>
+			</div>
+			<div class="article-meta">
+			  <div class="author">
+				  <div class="author-avtar">
+					  {% if article.user.image %}
+						  <img class="lazy2" data-src="{{ article.user.image | img_url: 'master' }}"/>
+					  {% else %}
+						  <img class="lazy2" data-src="{{ 'blog-default-icon.jpg' | asset_url }}"/>
+					  {% endif %}
+				  </div>
+				  <div class="author-data">
+					  <span>
+						  <b>{{ article.author }}<br></b>
+						  {% if current_year == blog_date_year %}{{ article.published_at | date: "%b %d" }}{% else %}{{ article.published_at | date: "%b %d, %Y" }}{% endif %}
+					  </span>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		{% endunless %}
+	  {% endif %}
+	{% endfor %}
+  {% endfor %}
+
+  {% if counter == 0 %}
+	{% assign articles = blog.articles | sort:'published_at' | reverse %}
+    {% for article in articles limit: 3 %}
+		{% assign temp = related_article.handle | split: '.....' %}
+		{% assign skip_articles = skip_articles | concat: temp %}
+		<div class="blog-inner">
+		  <div class="blog__article article--vertical">
+		  <div class="blog__image">
+			<a href="{{ article.url }}"><img data-src="{{ article.image.src | img_url: '500x500' }}" class="lazy2"></a>
+		  </div>
+		  <div class="blog__infos">
+			  <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+		  </div>
+		  <div class="article-meta">
+			<div class="author">
+				<div class="author-avtar">
+					{% if article.user.image %}
+						<img class="lazy2" data-src="{{ article.user.image | img_url: 'master' }}"/>
+					{% else %}
+						<img class="lazy2" data-src="{{ 'blog-default-icon.jpg' | asset_url }}"/>
+					{% endif %}
+				</div>
+				<div class="author-data">
+					<span>
+						<b>{{ article.author }}<br></b>
+						{% if current_year == blog_date_year %}{{ article.published_at | date: "%b %d" }}{% else %}{{ article.published_at | date: "%b %d, %Y" }}{% endif %}
+					</span>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	{% endfor %}
+  {% endif %}
+  </div>
+</div>

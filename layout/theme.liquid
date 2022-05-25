@@ -1,0 +1,652 @@
+{% capture "page"%}
+<!doctype html>
+<html class="no-js" lang="{{ shop.locale }}">
+	<head>
+      <script>
+        var head = document.head;
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = "https://181760.tracking.hyros.com/v1/lst/universal-script?ph=db6ee1beeb75c1a44ba0f6cae0352680e846fb69b0c3427d8738e37b87c3004e&tag=!Europe";
+        head.appendChild(script);
+      </script>
+
+      {% render 'pagefly-head' %}
+      <meta name="google-site-verification" content="biEz-ThnuCSQRvBesIoXZ_FaRhw1zlD7VALPlWOKyIU" />
+      <meta name="google-site-verification" content="3uTRCUQv0F5SVsNTGsqb_7j2HZw8M_Y0ckrjhfzpnvQ" />
+	  <meta name="google-site-verification" content="ZGbg4VCx6XJ4xNMJkSwNFP34aIH69rH3Ed69tpaMou8">
+      <meta name="google-site-verification" content="KixUd5sSMgNVTn3JlL0R585h1bvLMrbLBP6PCPSFfhE">
+      <meta name="msvalidate.01" content="09522E7A06B860BEB37FC64787BEE669" />
+      <style>
+        .th_pb_section .th_pb_addtocart_section .th_pb_add_to_cart{width:100%}
+      </style>
+      <script type="lazyload2" data-src="https://www.googletagmanager.com/gtag/js?id=AW-651952122"></script>
+		<script type="lazyload2">
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'AW-651952122');
+		</script>
+		{% if template contains 'index' %}
+		<script type="lazyload2">
+			gtag('event', 'page_view', {
+				'send_to': 'AW-651952122',
+				'ecomm_pagetype': 'home'
+			});
+		</script>
+		{% elsif template contains 'collection' %}
+		<script type="lazyload2">
+			gtag('event', 'page_view', {
+				'send_to': 'AW-651952122',
+				'ecomm_pagetype': 'category'
+			});
+		</script>
+		{% elsif template contains 'product' %}
+		<script type="lazyload2">
+			gtag('event', 'page_view', {
+				'send_to': 'AW-651952122',
+				'ecomm_pagetype': 'product',
+				'ecomm_prodid': 'shopify_GB_{{ product.id }}_{{ product.variants.first.id }}',
+				'ecomm_totalvalue': '{{ product.price | money_without_currency | remove: ',' }}'
+			});
+		</script>
+		{% elsif template contains 'cart' %}
+		<script type="lazyload2">
+			gtag('event', 'page_view', {
+				'send_to': 'AW-651952122',
+				'ecomm_pagetype': 'cart',
+				'ecomm_prodid': [{% for item in cart.items %}'shopify_GB_{{ item.product_id }}_{{ item.variant.id }}'{% unless forloop.last %},{% endunless %}{% endfor %}],
+				'ecomm_totalvalue': '{{cart.total_price | money_without_currency | remove: ',' }}'
+			});
+		</script>
+		{% elsif template contains 'search' %}
+		<script type="lazyload2">
+			gtag('event', 'page_view', {
+				'send_to': 'AW-651952122',
+				'ecomm_pagetype': 'searchresults'
+			});
+		</script>
+		{% else %}
+		<script type="lazyload2">
+			gtag('event', 'page_view', {
+				'send_to': 'AW-651952122',
+				'ecomm_pagetype': 'other'
+			});
+		</script>
+		{% endif %} 
+
+		<meta name="google-site-verification" content="Wk0ha5Q_2XmMJyYKjApfy9JPD-aFu1jtlXr64jRT6DE">
+		<meta name="google-site-verification" content="HERSnDzc2DOdBDreSOdX9Rb9hf3hx25rZYL47LoeZDg">
+		<meta name="facebook-domain-verification" content="wqdyesd1f6xz8791i2jg4mvg08tq0o">
+		<meta name="google-site-verification" content="wIJz-l5KS5XIuS6Ye5LPxlVfPGn4mR98Vz1zvrnPRFY">
+ 		<meta name="google-site-verification" content="wIJz-l5KS5XIuS6Ye5LPxlVfPGn4mR98Vz1zvrnPRFY" />
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta name="theme-color" content="{{ settings.color_button }}">
+		<link rel="canonical" href="{{ canonical_url }}">
+
+		{%- if settings.favicon != blank -%}
+		<link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+		{%- endif -%}
+      	<title>{% if template contains "index" %}{{ page_title }}{% else %}{{ page_title }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}{% endif %}{% endif %}</title>
+		<meta name="description" content="{{ page_description}}">
+		{%- capture seo_title -%}
+		{%- if request.page_type == 'search' and search.performed == true -%}
+			{{ 'general.search.heading' | t: count: search.results_count }}: {{ 'general.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
+		{%- else -%}
+			{{ page_title }}
+		{%- endif -%}
+		{%- if current_tags -%}
+			= current_tags | join: ', ' -%} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}
+		{%- endif -%}
+		{%- if current_page != 1 -%}
+			&ndash; {{ 'general.meta.page' | t: page: current_page }}
+		{%- endif -%}
+		{%- assign escaped_page_title = page_title | escape -%}
+			{%- unless escaped_page_title contains shop.name -%}
+				&ndash; {{ shop.name }}
+			{%- endunless -%}
+		{%- endcapture -%}
+
+		{% include 'social-meta-tags' %}
+		{% include 'theme-css' %}
+		<link rel="stylesheet" data-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" data-href="{{ 'theme.scss.css' | asset_url }}">
+		{{ 'volnat-custom.css' | asset_url | stylesheet_tag }}
+      
+		<script>
+			var theme = {
+				breakpoints: {
+					medium: 750,
+					large: 990,
+					widescreen: 1400
+				},
+				strings: {
+					addToCart: {{ 'products.product.add_to_cart' | t | json }},
+					soldOut: {{ 'products.product.sold_out' | t | json }},
+					unavailable: {{ 'products.product.unavailable' | t | json }},
+					regularPrice: {{ 'products.product.regular_price' | t | json }},
+					salePrice: {{ 'products.product.sale_price' | t | json }},
+					sale: {{ 'products.product.on_sale' | t | json }},
+					fromLowestPrice: {{ 'products.product.from_lowest_price_html' | t: lowest_price: '[price]' | json }},
+					vendor: {{'products.product.vendor' | t | json }},
+					showMore: {{ 'general.filters.show_more' | t | json }},
+					showLess: {{ 'general.filters.show_less' | t | json }},
+					searchFor: {{ 'general.search.search_for' | t | json }},
+					addressError: {{ 'sections.map.address_error' | t | json }},
+					addressNoResults: {{ 'sections.map.address_no_results' | t | json }},
+					addressQueryLimit: {{ 'sections.map.address_query_limit_html' | t | json }},
+					authError: {{ 'sections.map.auth_error_html' | t | json }},
+					newWindow: {{ 'general.accessibility.link_messages.new_window' | t | json }},
+					external: {{ 'general.accessibility.link_messages.external' | t | json }},
+					newWindowExternal: {{ 'general.accessibility.link_messages.new_window_and_external' | t | json }},
+					removeLabel: {{ 'cart.label.remove' | t: product: '[product]' | json }},
+					update: {{ 'cart.label.update' | t | json }},
+					quantity: {{ 'cart.label.quantity' | t | json }},
+					discountedTotal: {{ 'cart.label.discounted_total' | t | json }},
+					regularTotal: {{ 'cart.label.regular_total' | t | json }},
+					priceColumn: {{ 'cart.label.price_column' | t | json }},
+					quantityMinimumMessage: {{ 'products.product.quantity_minimum_message' | t | json }},
+					cartError: {{ 'cart.general.cart_error' | t | json }},
+					removedItemMessage: {{ 'cart.general.removed_item_html' | t: quantity: '[quantity]', link: '[link]' | json }},
+					unitPrice: {{ 'products.product.unit_price_label' | t | json }},
+					unitPriceSeparator: {{ 'general.accessibility.unit_price_separator' | t | json }},
+					oneCartCount: {{ 'cart.popup.cart_count' | t: count: 1 | json }},
+					otherCartCount: {{ 'cart.popup.cart_count' | t: count: '[count]' | json }},
+					quantityLabel: {{ 'cart.popup.quantity_label' | t: quantity_count: '[count]' | json }},
+					products: {{ 'general.search.products' | t | json }},
+					loading: {{ 'general.search.loading' | t | json }},
+					number_of_results: {{ 'general.search.number_of_results' | t: result_number: '[result_number]', results_count: '[results_count]' | json }},
+					number_of_results_found: {{ 'general.search.number_of_results_found' | t: results_count: '[results_count]' | json }},
+					one_result_found: {{ 'general.search.one_result_found' | t | json }}
+				},
+				moneyFormat: {{ shop.money_format | json }},
+				moneyFormatWithCurrency: {{ shop.money_with_currency_format | json }},
+				settings: {
+					predictiveSearchEnabled: {{ settings.predictive_search_enabled | json }},
+					predictiveSearchShowPrice: {{ settings.predictive_search_show_price | json }},
+					predictiveSearchShowVendor: {{ settings.predictive_search_show_vendor | json }}
+				}
+			}
+			document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+		</script>
+
+		{%- if request.page_type contains 'customers/' -%}
+			<script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
+		{%- endif -%}
+
+  {{ '//code.jquery.com/jquery-3.1.0.min.js' | script_tag }}
+		<script src="{{ 'lazysizes.js' | asset_url }}" async="async"></script>
+		<script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
+      	{% if template contains 'collection' %}
+			<script src="{{ 'jQuery.countdown.min.js' | asset_url }}" defer="defer"></script>
+		{% endif %}
+		<script type="lazyload2" data-src="{{ 'theme.js' | asset_url }}"></script>
+        
+		{%- if request.host == "volantaromaeuro.myshopify.com" or template contains 'cart' or template contains 'checkout' -%}
+			{{ content_for_header }}
+		{%- else -%}
+			{% capture content_for_header2 %}
+				{{ content_for_header }}
+			{% endcapture %}
+			{{ content_for_header2 | replace: ' defer="defer" ', ' type="lazyload2" ' | replace: " src=", " data-src=" | replace: "window.addEventListener('load', asyncLoad, false);", "window.addEventListener('wnw_load', asyncLoad, false);" | replace: "DOMContentLoaded", "DOMContentLoaded2" | replace: "https:\/\/front.optimonk.com\/public\/135563\/shopify\/preload.js?shop=volantaromaeuro.myshopify.com", "" }}
+		{%- endif -%}
+
+		{% render 'pagefly-header' %}
+
+		{{ shop.metafields.loox["global_html_head"] }}
+
+		{% render 'reamaze-config' %}
+		{% render 'reamaze-sso' %}
+
+		{% render 'weglot_hreftags' %}
+		{% render 'weglot_switcher' %}
+		<!-- SNAPCHAT TAG -->
+		<script>
+		/*window.addEventListener('DOMContentLoaded', () => {  
+		document.getElementsByClassName('pf-e1904236')[0].addEventListener('click', () => {
+           		snaptr('track', 'ADD_CART', {
+               		'item_ids': ShopifyAnalytics.meta.product.variants[0].id
+               		})
+              		})
+        		   })*/
+		</script>
+        <!-- Google Tag Manager --
+        <script type="lazyload2">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MQVMB9W');</script>
+        <!-- End Google Tag Manager -->
+
+		{%- comment -%} Variables set by Weglot's preferences panel {%- endcomment -%}
+		{%- assign main_domain = canonical_url | split: '://' | last | split: '/' | first | split: 'www.' | last -%}
+
+        {%- unless request.path == "/pages/privacy" -%}
+        <link rel="alternate" hreflang="x-default" href="https://volantaroma.com{% if template contains 'collection' %}{{ collection.url }}{% elsif template == 'index' %}/{% elsif template contains 'product' %}{{ product.url }}{% elsif template contains 'blog' %}{{ blog.url }}{% elsif template contains 'article' %}{{ article.url }}{% else %}{{ page.url }}{% endif %}">
+       <link rel="alternate" hreflang="en-gb" href="https://volantaroma.co.uk{% if template contains 'collection' %}{{ collection.url }}{% elsif template == 'index' %}/{% elsif template contains 'product' %}{{ product.url }}{% elsif template contains 'blog' %}{{ blog.url }}{% elsif template contains 'article' %}{{ article.url }}{% else %}{{ page.url }}{% endif %}">
+        <link rel="alternate" hreflang="nl" href="https://nl.volantaroma.com{% if template contains 'collection' %}{{ collection.url }}{% elsif template == 'index' %}/{% elsif template contains 'product' %}{{ product.url }}{% elsif template contains 'blog' %}{{ blog.url }}{% elsif template contains 'article' %}{{ article.url }}{% else %}{{ page.url }}{% endif %}">
+        <link rel="alternate" hreflang="fi" href="https://fi.volantaroma.com{% if template contains 'collection' %}{{ collection.url }}{% elsif template == 'index' %}/{% elsif template contains 'product' %}{{ product.url }}{% elsif template contains 'blog' %}{{ blog.url }}{% elsif template contains 'article' %}{{ article.url }}{% else %}{{ page.url }}{% endif %}">
+        <link rel="alternate" hreflang="fr" href="https://fr.volantaroma.com{% if template contains 'collection' %}{{ collection.url }}{% elsif template == 'index' %}/{% elsif template contains 'product' %}{{ product.url }}{% elsif template contains 'blog' %}{{ blog.url }}{% elsif template contains 'article' %}{{ article.url }}{% else %}{{ page.url }}{% endif %}">
+        <link rel="alternate" hreflang="de" href="https://de.volantaroma.com{% if template contains 'collection' %}{{ collection.url }}{% elsif template == 'index' %}/{% elsif template contains 'product' %}{{ product.url }}{% elsif template contains 'blog' %}{{ blog.url }}{% elsif template contains 'article' %}{{ article.url }}{% else %}{{ page.url }}{% endif %}">
+        <link rel="alternate" hreflang="it" href="https://it.volantaroma.com{% if template contains 'collection' %}{{ collection.url }}{% elsif template == 'index' %}/{% elsif template contains 'product' %}{{ product.url }}{% elsif template contains 'blog' %}{{ blog.url }}{% elsif template contains 'article' %}{{ article.url }}{% else %}{{ page.url }}{% endif %}">
+        <link rel="alternate" hreflang="es" href="https://es.volantaroma.com{% if template contains 'collection' %}{{ collection.url }}{% elsif template == 'index' %}/{% elsif template contains 'product' %}{{ product.url }}{% elsif template contains 'blog' %}{{ blog.url }}{% elsif template contains 'article' %}{{ article.url }}{% else %}{{ page.url }}{% endif %}">
+        {%- endunless -%}
+
+		<script>
+			!function (w, d, t) {
+		  	w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+		
+		  	ttq.load('C533AMO00UN7QUNF39AG');
+		  	ttq.page();
+			}(window, document, 'ttq');
+		</script>
+
+     <script src="https://www.dwin1.com/19038.js" type="text/javascript" defer="defer"></script> 
+      
+	
+  <!-- REAMAZE INTEGRATION START - DO NOT REMOVE -->
+{% render 'reamaze-config' %}
+{% render 'reamaze-sso' %}
+<!-- REAMAZE INTEGRATION END - DO NOT REMOVE -->
+
+{% include 'sca.freegifts' %}
+      
+</head>
+	<body class="template-{{ request.page_type | handle }}">
+		<!-- Google Tag Manager (noscript) --
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQVMB9W" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+      
+        <!-- Pagefly margin fix -->
+        {% if template contains 'pagefly' or 'pf' %}
+        <style>
+        [data-pf-type='Layout'] [data-pf-type='Section']:nth-child(1) {
+        margin-top: -15px !important;}
+        @media (max-width: 767px){
+        [data-pf-type='Layout'] [data-pf-type='Section']:nth-child(1) {
+        margin-top: -30px !important;}}
+        </style>
+        {% endif %}
+        <!-- Pagefly margin fix -->        
+        
+
+		{% if template contains 'product' %}        	
+			{% include 'product-schema' %}
+		{% else %}
+		{% endif %}
+        
+
+		{% include 'avada-gtm-body' %}
+		<a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+ 
+		{% section 'header' %}
+
+		<div class="page-container drawer-page-content" id="PageContainer">
+			<main class="main-content js-focus-hidden" id="MainContent" role="main" tabindex="-1">
+              {% if template contains 'pagefly' or template contains 'pf' %}
+              {%- capture pf_html -%}
+              {{ content_for_layout }}
+              {%- endcapture -%}
+              {{ pf_html | replace: 'srcSet', 'srcset' | remove: ' 1536w' }}
+              {% elsif template contains 'collection' %}
+              {{ content_for_layout }}
+              {% else %}
+              {{ content_for_layout }}
+              {% endif %}
+              
+				<limespot></limespot>
+			</main>
+
+			{% section 'footer' %}
+
+			<div id="slideshow-info" class="visually-hidden" aria-hidden="true">{{ 'sections.slideshow.navigation_instructions' | t }}</div>
+		</div>
+		<ul hidden>
+			<li id="a11y-refresh-page-message">{{ 'general.accessibility.refresh_page' | t }}</li>
+			<li id="a11y-selection-message">{{ 'general.accessibility.selection_help' | t }}</li>
+		</ul>
+		{% include 'subscription-theme-footer' %}
+		{{ shop.metafields.loox["global_html_body"] }}
+		<script>
+			setTimeout(function() {
+				var pfATCs = $('#__pf').find('[data-pf-type="ProductATC"]');
+				pfATCs.click(e => {
+					var checkoutAction = e.currentTarget.getAttribute('data-checkout');
+					if (checkoutAction === 'same') {
+						window.__pagefly_helper_store__ && window.__pagefly_helper_store__.subscribe(function() {
+							$.getJSON('/cart.json').then(cart => {
+								window.SLIDECART_UPDATE(cart);
+								window.SLIDECART_OPEN();
+							})
+						})
+					}
+				})
+			});
+		</script>
+		<script src="https://a.klaviyo.com/media/js/onsite/onsite.js"></script>
+		<script>
+			var klaviyo = klaviyo || [];
+			klaviyo.init({
+				account: "VRcUXd",
+				platform: "shopify"
+			});
+			klaviyo.enable("backinstock",{
+				trigger: {
+					product_page_text: "Get notified when it's back in stock.",
+					product_page_class: "btn",
+					product_page_text_align: "center",
+					product_page_margin: "0px",
+					replace_anchor: false
+				},
+				modal: {
+					headline: "{product_name}",
+					body_content: "Register to get notified when this product is back in stock.",
+					email_field_label: "Email",
+					button_label: "Notify me",
+					subscription_success_label: "Great! We'll send you an email when it's back in stock.",
+					footer_content: '',
+					additional_styles: "@import url('https://fonts.googleapis.com/css?family=Helvetica+Neue');",
+					drop_background_color: "#000",
+					background_color: "#fff",
+					text_color: "#4A3F3C",
+					button_text_color: "#fff",
+					button_background_color: "#DEAB5B",
+					close_button_color: "#ccc",
+					error_background_color: "#fcd6d7",
+					error_text_color: "#C72E2F",
+					success_background_color: "#d3efcd",
+					success_text_color: "#1B9500"
+				}
+			});
+
+			(function() {
+				var identifyLanguageToKlaviyo = function(lang) {
+					var _learnq = window._learnq || [];
+					_learnq.push(['identify', {
+						$lang: lang
+					}]);
+				}
+				identifyLanguageToKlaviyo(Weglot.getCurrentLang())
+				Weglot.on('languageChanged', identifyLanguageToKlaviyo)
+			})()
+		</script>
+      
+		{% render 'th-bundle-product' %}
+
+		<script type="lazyload2" data-src="https://cdn.shopify.com/s/files/1/0194/1736/6592/t/1/assets/booster-page-speed-optimizer.js?23"></script>
+		<script>window.KlarnaThemeGlobals={};{%case template.name%} {%when"product"%} window.KlarnaThemeGlobals.data_purchase_amount={{product.first_available_variant.price}};window.KlarnaThemeGlobals.productVariants={{product.variants|json}};window.KlarnaThemeGlobals.documentCopy=document.cloneNode(true);{%when"cart"%} window.KlarnaThemeGlobals.data_purchase_amount={{cart.total_price}};window.KlarnaThemeGlobals.documentCopy=document.cloneNode(true);{%endcase%}</script>
+		{% if settings.slidecart_translate %}
+		<script>
+			window.SLIDECART_LOADED = function() {
+				var language = document.querySelector('html').getAttribute('lang')
+				if (language === 'it') {
+					window.SLIDECART_STATE().settings.title_text = "Carrello"
+					window.SLIDECART_STATE().settings.note_text = "Aggiungi una nota facoltativa"
+					window.SLIDECART_STATE().settings.note_placeholder_text = "Istruzioni speciali"
+					window.SLIDECART_STATE().settings.discounts_label_text = "Sconti"
+					window.SLIDECART_STATE().settings.shipping_label_text = "Spedizione"
+					window.SLIDECART_STATE().settings.shipping_value_text = "GRATIS"
+					window.SLIDECART_STATE().settings.subtotal_label_text = "Totale parziale"
+					window.SLIDECART_STATE().settings.checkout_text = "Procedi all’ordine"
+					window.SLIDECART_STATE().settings.upsell_add_text = "Aggiungi"
+					window.SLIDECART_STATE().settings.upsell_add_long_text = "Aggiungi al carrello"
+					window.SLIDECART_STATE().settings.upsell_unavailable_text = "Non disponibile"
+					window.SLIDECART_STATE().settings.empty_text = "Il tuo carrello è vuoto."
+					window.SLIDECART_STATE().settings.continue_shopping_text = "Oppure continua a fare acquisti"
+					window.SLIDECART_STATE().settings.discount_box_label = "Codice sconto"
+					window.SLIDECART_STATE().settings.discount_box_error_text = "Codice sconto non valido"
+					window.SLIDECART_STATE().settings.discount_box_button_text = "Applica"
+					window.SLIDECART_STATE().settings.subscription_text = "Abbonamento"
+					window.SLIDECART_STATE().settings.vendor_key_text = "Fornitore"
+					window.SLIDECART_STATE().settings.product_type_key_text = "Tipo di prodotto"
+					window.SLIDECART_STATE().settings.rewards = true
+					window.SLIDECART_STATE().settings.rewards_pre = "Ancora {{ amount }} per la spedizione gratis"
+					window.SLIDECART_STATE().settings.rewards_post = "Spedizione e tutti i diritti nell’UE a nostro carico"
+					window.SLIDECART_STATE().settings.rewards_amount = "50.00"
+					window.SLIDECART_STATE().settings.rewards_shipping = false
+					window.SLIDECART_STATE().settings.rewards_shipping_text = "FREE"
+
+					if(window.SLIDECART_STATE().announcements[0]) window.SLIDECART_STATE().announcements[0].text = "Tutti i dazi doganali pagati"
+					if(window.SLIDECART_STATE().announcements[1]) window.SLIDECART_STATE().announcements[1].text = "Pagamenti sicuri con PayPal"
+					if(window.SLIDECART_STATE().announcements[2]) window.SLIDECART_STATE().announcements[2].text = "Consegna 1-5 giorni"
+				} else if (language == 'fi') {
+					window.SLIDECART_STATE().settings.title_text = "Ostoskori"
+					window.SLIDECART_STATE().settings.note_text = "Lisää valinnainen kommentti"
+					window.SLIDECART_STATE().settings.note_placeholder_text = "Erityisohjeet"
+					window.SLIDECART_STATE().settings.discounts_label_text = "Alennus"
+					window.SLIDECART_STATE().settings.shipping_label_text = "Toimitus"
+					window.SLIDECART_STATE().settings.shipping_value_text = "ILMAINEN"
+					window.SLIDECART_STATE().settings.subtotal_label_text = "Välisumma"
+					window.SLIDECART_STATE().settings.checkout_text = "Siirry kassalle"
+					window.SLIDECART_STATE().settings.upsell_add_text = "Lisää"
+					window.SLIDECART_STATE().settings.upsell_add_long_text = "Lisää ostoskoriin"
+					window.SLIDECART_STATE().settings.upsell_unavailable_text = "Ei saatavilla"
+					window.SLIDECART_STATE().settings.empty_text = "Ostoskorisi on tyhjä."
+					window.SLIDECART_STATE().settings.continue_shopping_text = "Tai jatka ostoksia"
+					window.SLIDECART_STATE().settings.discount_box_label = "Alennuskoodi"
+					window.SLIDECART_STATE().settings.discount_box_error_text = "Virheellinen alennuskoodi"
+					window.SLIDECART_STATE().settings.discount_box_button_text = "Käytä"
+					window.SLIDECART_STATE().settings.subscription_text = "Kestotilaa"
+					window.SLIDECART_STATE().settings.vendor_key_text = "Myyjä"
+					window.SLIDECART_STATE().settings.product_type_key_text = "Tuotetyyppi"
+					window.SLIDECART_STATE().settings.rewards = true
+					window.SLIDECART_STATE().settings.rewards_pre = "Olet {{ amount }} päässä ilmaisesta toimituksesta"
+					window.SLIDECART_STATE().settings.rewards_post = "Toimituskulut ja kaikki EU-tullit meidän vastuullamme"
+					window.SLIDECART_STATE().settings.rewards_amount = "50.00"
+					window.SLIDECART_STATE().settings.rewards_shipping = false
+					window.SLIDECART_STATE().settings.rewards_shipping_text = "FREE"
+
+					if(window.SLIDECART_STATE().announcements[0]) window.SLIDECART_STATE().announcements[0].text = "Kaikki tullit maksettu"
+					if(window.SLIDECART_STATE().announcements[1]) window.SLIDECART_STATE().announcements[1].text = "Turvalliset maksut Klarnalla"
+					if(window.SLIDECART_STATE().announcements[2]) window.SLIDECART_STATE().announcements[2].text = "Toimitus 1-5 päivässä"
+				} else if (language == 'es') {
+					window.SLIDECART_STATE().settings.title_text = "Carrito"
+					window.SLIDECART_STATE().settings.note_text = "Añadir una nota (opcional)"
+					window.SLIDECART_STATE().settings.note_placeholder_text = "Instrucciones especiales"
+					window.SLIDECART_STATE().settings.discounts_label_text = "Descuentos"
+					window.SLIDECART_STATE().settings.shipping_label_text = "Envío"
+					window.SLIDECART_STATE().settings.shipping_value_text = "GRATIS"
+					window.SLIDECART_STATE().settings.subtotal_label_text = "Subtotal"
+					window.SLIDECART_STATE().settings.checkout_text = "Proceso de compra"
+					window.SLIDECART_STATE().settings.upsell_add_text = "Añadir"
+					window.SLIDECART_STATE().settings.upsell_add_long_text = "Añadir al carrito"
+					window.SLIDECART_STATE().settings.upsell_unavailable_text = "No disponible"
+					window.SLIDECART_STATE().settings.empty_text = "Tu carrito está vacío"
+					window.SLIDECART_STATE().settings.continue_shopping_text = "O seguir comprando"
+					window.SLIDECART_STATE().settings.discount_box_label = "Código de descuento"
+					window.SLIDECART_STATE().settings.discount_box_error_text = "Código de descuento no válido"
+					window.SLIDECART_STATE().settings.discount_box_button_text = "Aplicar"
+					window.SLIDECART_STATE().settings.subscription_text = "Suscribirse"
+					window.SLIDECART_STATE().settings.vendor_key_text = "Vendedor"
+					window.SLIDECART_STATE().settings.product_type_key_text = "Tipo de producto"
+					window.SLIDECART_STATE().settings.rewards = true
+					window.SLIDECART_STATE().settings.rewards_pre = "{{ amount }} más para envío gratuito"
+					window.SLIDECART_STATE().settings.rewards_post = "El envío y todos lo gastos dentro de la UE corren de nuestra cuenta"
+					window.SLIDECART_STATE().settings.rewards_amount = "50.00"
+					window.SLIDECART_STATE().settings.rewards_shipping = false
+					window.SLIDECART_STATE().settings.rewards_shipping_text = "FREE"
+
+					if(window.SLIDECART_STATE().announcements[0]) window.SLIDECART_STATE().announcements[0].text = "Devoluciones siempre gratuitas"
+					if(window.SLIDECART_STATE().announcements[1]) window.SLIDECART_STATE().announcements[1].text = "Pago seguro con PayPal"
+					if(window.SLIDECART_STATE().announcements[2]) window.SLIDECART_STATE().announcements[2].text = "1-5 días de envío"
+				} else if (language == 'nl') {
+					window.SLIDECART_STATE().settings.title_text= "Winkelwagen"
+					window.SLIDECART_STATE().settings.note_text= "Voeg een optionele opmerking toe"
+					window.SLIDECART_STATE().settings.note_placeholder_text= "Speciale instructies"
+					window.SLIDECART_STATE().settings.discounts_label_text= "Korting"
+					window.SLIDECART_STATE().settings.shipping_label_text= "Verzending"
+					window.SLIDECART_STATE().settings.shipping_value_text= "GRATIS"
+					window.SLIDECART_STATE().settings.subtotal_label_text= "Subtotaal"
+					window.SLIDECART_STATE().settings.checkout_text= "Afrekenen"
+					window.SLIDECART_STATE().settings.upsell_add_text= "Voeg toe"
+					window.SLIDECART_STATE().settings.upsell_add_long_text= "Toevoegen aan Winkelwagen"
+					window.SLIDECART_STATE().settings.upsell_unavailable_text= "Niet beschikbaar"
+					window.SLIDECART_STATE().settings.empty_text= "Jouw winkelwagen is leeg."
+					window.SLIDECART_STATE().settings.continue_shopping_text= "Of verder winkelen"
+					window.SLIDECART_STATE().settings.discount_box_label= "Kortingscode"
+					window.SLIDECART_STATE().settings.discount_box_error_text= "Ongeldige kortingscode"
+					window.SLIDECART_STATE().settings.discount_box_button_text= "Toepassen"
+					window.SLIDECART_STATE().settings.subscription_text= "Abonnement"
+					window.SLIDECART_STATE().settings.vendor_key_text= "Verkoper"
+					window.SLIDECART_STATE().settings.product_type_key_text= "Producttype"
+					window.SLIDECART_STATE().settings.rewards= true
+					window.SLIDECART_STATE().settings.rewards_pre= "{{ amount }} meer voor gratis verzending"
+					window.SLIDECART_STATE().settings.rewards_post= "Verzending en heffingen binnen de EU op onze kosten"
+					window.SLIDECART_STATE().settings.rewards_amount= "50.00"
+					window.SLIDECART_STATE().settings.rewards_shipping= false
+					window.SLIDECART_STATE().settings.rewards_shipping_text= "FREE"
+
+					if(window.SLIDECART_STATE().announcements[1]) window.SLIDECART_STATE().announcements[0].text = "Alle Heffingen Betaald"
+					if(window.SLIDECART_STATE().announcements[2]) window.SLIDECART_STATE().announcements[1].text = "Veilig Betalen Met Klarna"
+					if(window.SLIDECART_STATE().announcements[3]) window.SLIDECART_STATE().announcements[2].text = "1-5 Dagen Levering"
+				} else if (language == 'de') {
+					window.SLIDECART_STATE().settings.title_text = "Warenkorb"
+					window.SLIDECART_STATE().settings.note_text = "Fügen Sie eine optionale Notiz hinzu"
+					window.SLIDECART_STATE().settings.note_placeholder_text = "Spezielle Anweisungen"
+					window.SLIDECART_STATE().settings.discounts_label_text = "Discounts"
+					window.SLIDECART_STATE().settings.shipping_label_text = "Rabatte"
+					window.SLIDECART_STATE().settings.shipping_value_text = "KOSTENLOS"
+					window.SLIDECART_STATE().settings.subtotal_label_text = "Zwischensumme"
+					window.SLIDECART_STATE().settings.checkout_text = "Überprüfen"
+					window.SLIDECART_STATE().settings.upsell_add_text = "Hinzufügen"
+					window.SLIDECART_STATE().settings.upsell_add_long_text = "In den Warenkorb"
+					window.SLIDECART_STATE().settings.upsell_unavailable_text = "Nicht verfügbar"
+					window.SLIDECART_STATE().settings.empty_text = "Ihr Warenkorb ist leer."
+					window.SLIDECART_STATE().settings.continue_shopping_text = "Oder weiter einkaufen"
+					window.SLIDECART_STATE().settings.discount_box_label = "Rabattcode"
+					window.SLIDECART_STATE().settings.discount_box_error_text = "Ungültiger Rabattcode"
+					window.SLIDECART_STATE().settings.discount_box_button_text = "Anwenden"
+					window.SLIDECART_STATE().settings.subscription_text = "Abonnement"
+					window.SLIDECART_STATE().settings.vendor_key_text = "Verkäufer"
+					window.SLIDECART_STATE().settings.product_type_key_text = "Produktart"
+					window.SLIDECART_STATE().settings.rewards = true
+					window.SLIDECART_STATE().settings.rewards_pre = "{{ amount }} mehr für kostenlose Lieferung"
+					window.SLIDECART_STATE().settings.rewards_post = "Lieferkosten und alle Gebühren innerhalb der EU gehen auf uns!"
+					window.SLIDECART_STATE().settings.rewards_amount = "50.00"
+					window.SLIDECART_STATE().settings.rewards_shipping = false
+					window.SLIDECART_STATE().settings.rewards_shipping_text = "FREE"
+
+					if(window.SLIDECART_STATE().announcements[0]) window.SLIDECART_STATE().announcements[0].text = "Alle Zölle bezahlt"
+					if(window.SLIDECART_STATE().announcements[1]) window.SLIDECART_STATE().announcements[1].text = "Sichere Zahlungen mit Klarna"
+					if(window.SLIDECART_STATE().announcements[2]) window.SLIDECART_STATE().announcements[2].text = "1-5 Tage Lieferung"
+				} else if (language == 'fr') {
+					window.SLIDECART_STATE().settings.title_text = "Panier"
+					window.SLIDECART_STATE().settings.note_text = "Ajouter une note facultative"
+					window.SLIDECART_STATE().settings.note_placeholder_text = "Instructions spéciales"
+					window.SLIDECART_STATE().settings.discounts_label_text = "Réductions"
+					window.SLIDECART_STATE().settings.shipping_label_text = "Expédition"
+					window.SLIDECART_STATE().settings.shipping_value_text = "GRATUITE"
+					window.SLIDECART_STATE().settings.subtotal_label_text = "Sous-total"
+					window.SLIDECART_STATE().settings.checkout_text = "Paiement"
+					window.SLIDECART_STATE().settings.upsell_add_text = "Ajouter"
+					window.SLIDECART_STATE().settings.upsell_add_long_text = "Ajouter au panier"
+					window.SLIDECART_STATE().settings.upsell_unavailable_text = "Non disponible"
+					window.SLIDECART_STATE().settings.empty_text = "Votre panier est vide."
+					window.SLIDECART_STATE().settings.continue_shopping_text = "Ou poursuivez vos achats"
+					window.SLIDECART_STATE().settings.discount_box_label = "Code de réduction"
+					window.SLIDECART_STATE().settings.discount_box_error_text = "Code de réduction non valide"
+					window.SLIDECART_STATE().settings.discount_box_button_text = "Appliquer"
+					window.SLIDECART_STATE().settings.subscription_text = "Abonnement"
+					window.SLIDECART_STATE().settings.vendor_key_text = "Fournisseur"
+					window.SLIDECART_STATE().settings.product_type_key_text = "Type de produit"
+					window.SLIDECART_STATE().settings.rewards = true
+					window.SLIDECART_STATE().settings.rewards_pre = "Plus que {{ amount }} pour la livraison gratuite"
+					window.SLIDECART_STATE().settings.rewards_post = "Nous prenons en charge l'expédition et tous les frais dans l’UE"
+					window.SLIDECART_STATE().settings.rewards_amount = "50.00"
+					window.SLIDECART_STATE().settings.rewards_shipping = false
+					window.SLIDECART_STATE().settings.rewards_shipping_text = "FREE"
+
+					if(window.SLIDECART_STATE().announcements[0]) window.SLIDECART_STATE().announcements[0].text = "Tous droits payés"
+					if(window.SLIDECART_STATE().announcements[1]) window.SLIDECART_STATE().announcements[1].text = "Paiements sécurisés avec PayPal"
+					if(window.SLIDECART_STATE().announcements[2]) window.SLIDECART_STATE().announcements[2].text = "1-5 jours de livraison"
+				}
+			}
+		</script>
+		{% endif %}
+		<script type="lazyload2" data-src="//satcb.azureedge.net/Scripts/satcb.min.js?shop=volantaromaeuro.myshopify.com"></script>
+		<script>
+			const images = document.querySelectorAll('img[data-pf-type="Image"], a[data-pf-type="Image"] img')
+			images.forEach(img => {
+				img.removeAttribute("srcset")
+				const regex = /_([0-9]){2,}x/
+				const text = img.src.match(regex)
+				if (text) {
+					img.src = img.src.replace(text[0], '');
+				}
+			});
+		</script>
+      
+      {% assign t = template | prepend: '/' | append: '.' %}
+	{% if t contains '/product.' %}
+    <script type="text/javascript">
+      var _learnq = _learnq || [];
+
+      var item = {
+        Name: {{ product.title|json }},
+        ProductID: {{ product.id|json }},
+        Categories: {{ product.collections|map:'title'|json }},
+        ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+        URL: "{{ shop.secure_url }}{{ product.url }}",
+        Brand: {{ product.vendor|json }},
+        Price: {{ product.price|money|json }},
+        CompareAtPrice: {{ product.compare_at_price_max|money|json }}
+      };
+
+      _learnq.push(['track', 'Viewed Product', item]);
+      _learnq.push(['trackViewedItem', {
+        Title: item.Name,
+        ItemId: item.ProductID,
+        Categories: item.Categories,
+        ImageUrl: item.ImageURL,
+        Url: item.URL,
+        Metadata: {
+          Brand: item.Brand,
+          Price: item.Price,
+          CompareAtPrice: item.CompareAtPrice
+        }
+      }]);
+      console.log("Page view script from theme.liquid")
+        </script>
+      
+      		<!-- Optimonk cart value fetcher   -->
+          <script type="text/javascript">
+        var OptiMonkOnReady = function () {
+            var adapter = OptiMonk.Visitor.createAdapter();
+            adapter.Cart.add('{{ product.title|json }}', {quantity:1, price:{{ product.price|money|json }}});
+        };
+      	   </script>
+      
+	{% endif %}
+      
+         <script type="text/javascript">
+    (function(e,a){
+        var t,r=e.getElementsByTagName("head")[0],c=e.location.protocol;
+        t=e.createElement("script");t.type="text/javascript";
+        t.charset="utf-8";t.async=!0;t.defer=!0;
+        t.src=c+"//front.optimonk.com/public/"+a+"/js/preload.js";r.appendChild(t);
+    })(document,"135563");
+		</script>
+      
+    <script type="text/javascript" src="https://s.skimresources.com/js/205662X1684882.skimlinks.js"></script>
+
+	<script>
+        if(sessionStorage.getItem('save50') == 1){
+          fetch('/cart/clear.js', {
+            method: 'POST'
+          })
+          .then(response => {
+            return response.json();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+           sessionStorage.setItem('save50' , 0)
+        }
+      </script>
+	</body>
+</html>
+{% endcapture %}
+
+{{ page | replace: "srcSet", "srcset" }}
+{{ 'wnw-optimization.js' | asset_url | script_tag }}

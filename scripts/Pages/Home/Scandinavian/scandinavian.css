@@ -1,0 +1,8 @@
+@media screen and (min-width:1920px){
+    .scan_spacing{
+        width: 80% !important;
+    }
+    .scan_spacing_img{
+        justify-content: center !important;
+    }
+}

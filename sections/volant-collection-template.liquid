@@ -1,0 +1,667 @@
+{% case section.settings.grid %}
+  {% when 2 %}
+    {%- assign max_height = 530 -%}
+  {% when 3 %}
+    {%- assign max_height = 345 -%}
+  {% when 4 %}
+    {%- assign max_height = 200 -%}
+  {% when 5 %}
+    {%- assign max_height = 195 -%}
+{% endcase %}
+    
+{% paginate collection.products by 1000 %}
+<div data-section-id="{{ section.id }}" data-section-type="collection-template">
+    <div class="collection-products">
+        <div class="filter-column">
+            <div class="filter-mobile-header">
+                <h2>Choose Filters</h2>
+                <div id="clear-all-filters" class="clear-all">CLEAR FILTERS</div>
+                <img class="close-filter" src="https://cdn.shopify.com/s/files/1/0535/9088/4510/files/x.svg?v=1627733300" />
+            </div>
+            <div class="sticky-filter">
+                <div class="filters">
+                    {%- for block in section.blocks -%}
+                        {%- case block.type -%}
+                            {%- when 'collections' -%}
+                                <div class="filter-item">
+                                    {% if block.settings.title != blank %}
+                                        <h5>{{ block.settings.title }}</h5>
+                                    {% endif %}
+                                    <div class="filter-list">
+                                        {%- assign menu = linklists[block.settings.menu] -%}
+                                        {%- for link in menu.links -%}
+                                            {%- if link.type == 'collection_link' or link.type == 'collections_link'  or link.url == '#' or link.type == 'http_link' -%}
+                                                {%- assign array_link = link.url | split: '/' -%}
+                                                {%- if link.object.handle == collection.handle or link.handle == collection.handle -%}
+                                                    {%- assign is_current_collection = true -%}
+                                                {%- else -%}
+                                                    {%- assign is_current_collection = false -%}
+                                                {%- endif -%}
+                                                <div class="filter-alt">
+                                                    <a href="{{ link.url }}" class="{% if is_current_collection %}active{% endif %}">{{ link.title }}</a>
+                                                </div>
+                                            {%- endif -%}
+                                        {%- endfor -%}
+                                    </div>
+                                </div>
+                            {%- when 'filters' -%}
+                                <div class="filter-item">
+                                    {%- assign all_items = collection.all_tags -%}
+                                    {%- assign all_items_handle = all_items | join: '___' | handleize | split: '___' -%}
+                                    {%- if block.settings.items contains '|' -%}
+                                        {%- assign filters = block.settings.items | split: '|' -%}
+                                    {%- else -%}
+                                        {%- assign filters = block.settings.items | split: ',' -%}
+                                    {%- endif -%}
+                                    
+                                    {%- capture filters_html -%}
+                                        {%- assign filters_count = 0 -%}
+                                        {%- assign title = block.settings.title | downcase -%}
+                                        {%- for filter in filters -%}
+                                            {%- assign filter_handle = filter | handleize -%}
+                                            {%- if all_items_handle contains filter_handle -%}
+                                                {%- assign filters_count = filters_count | plus: 1 -%}
+                                                {%- if filters_count == 6 and title != 'scent' and title != 'good for' -%}
+                                                    <div class="more-filters-list">
+                                                {%- endif -%}
+                                                <div class="filter" data-type="{{ block.settings.type_of_tags_input }}" data-category="{{ block.settings.title | handleize }}" data-value="{{ filter_handle }}">
+                                                    {%- assign remove_last_char = block.settings.type | size | minus: 1 -%}
+                                                    {% if block.settings.type_of_tags_input != 'checkbox' %}
+                                                        <div class="circle-wrapper"><div class="circle-inner"></div></div>
+                                                    {% endif %}
+                                                    {% if block.settings.type_of_tags_input == 'checkbox' %}
+                                                        <input type="checkbox" class="checkbox" />
+                                                    {% endif %}
+                                                    <span>{{ filter }}</span>
+                                                </div>
+                                            {%- endif -%}
+                                            {%- if filters_count >= 6 and title != 'scent' and title != 'good for' and forloop.last == true -%}
+                                                </div>
+                                            {%- endif -%}
+                                        {%- endfor -%}
+                                        {%- if filters_count >= 6 and title != 'scent' and title != 'good for' -%}
+                                            <a href="javascript:void(0);" class="more-filters" data-option="{{ block.settings.title }}">More {{ block.settings.title }}</a>
+                                        {%- endif -%}
+                                    {%- endcapture -%}
+                                    {%- if filters_html != blank -%}
+                                        <h5 class="filter-title">{{ block.settings.title }}</h5>
+                                        <div class="filter-list" style="display: none;">
+                                            {{ filters_html }}
+                                        </div>
+                                    {%- endif -%}
+                                </div>
+                        {%- endcase -%}
+                    {%- endfor -%}
+                    {% if section.settings.sort_enable %}
+                        <div class="filter-item filter-sort">
+                            {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+                            <h5 class="filter-title" for="SortBy">{{ 'collections.sorting.title' | t }}: </h5>
+                            {% comment %}
+                            <div class="filter-list hide" style="display: none;">
+                                {%- for option in collection.sort_options -%}
+                                    <div class="filter sort {% if option.value == sort_by %}selected{% endif %}" data-value="{{ option.value }}">
+                                        <div class="circle-wrapper"><div class="circle-inner"></div></div>
+                                        <span>{{ option.name }}</span>
+                                    </div>    
+                                {%- endfor -%}
+                            </div>
+                            {% endcomment %}
+                            <div id="collection-sort" class="sort-opener float-left">
+                                <span id="current-sort">Best selling</span> {% include 'icon-chevron-down' %}
+                            </div>
+                            <div id="sort-dropdown" class="filter-top filter-dropdown sort-dropdown">
+                                {% assign sort_options_list = 'best-selling|title-ascending|title-descending|price-ascending|price-descending' | split: '|' %}
+                                {%- for option in collection.sort_options -%}
+                                    {% if sort_options_list contains option.value %}
+                                    <div class="sort-item {% if option.value == sort_by %}selected{% endif %}" data-value="{{ option.value }}"> 
+                                        <span class="option-label">{{ option.name }}</span>
+                                    </div>
+                                    {% endif %}
+                                {%- endfor -%}
+                            </div>
+                            {% comment %}
+                            <div class="filters-toolbar__input-wrapper select-group hide">
+                            <select name="sort_by" id="SortBy"
+                                class="filters-toolbar__input hidden"
+                                aria-describedby="a11y-refresh-page-message a11y-selection-message"
+                                data-default-sortby="{{ collection.default_sort_by }}"
+                            >
+                                {%- for option in collection.sort_options -%}
+                                <option value="{{ option.value }}" {% if option.value == sort_by %}selected="selected"{% endif %}>{{ option.name }}</option>
+                                {%- endfor -%}
+                            </select>
+                            {% include 'icon-chevron-down' %}
+                            </div>
+                            {% endcomment %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="close-filter-wrapper">
+                <div class="close-filter">
+                    SEE <span class="mobile-filters-total" data-collection-products="{{ collection.products_count }}">{{ collection.products_count }}</span> PRODUCTS
+                </div>
+            </div>
+            <div id="filter-clicker" style="visibility: hidden;"></div>
+        </div>
+        <div id="Collection" class="product-column collection_content {{ collection.handle }}">
+          	<div class="collection-banner" style="{% if collection.title == 'Black Week Sale' or collection.title == 'FLASH SALE' or  collection.title == 'Christmas Sale' or collection.title == 'January Sale' %}background-color: #FDF6EF;{% else %}background-image: url({{ collection.image | img_url: 'master' }}){% endif %}">
+                {% if section.settings.show_collection_image and collection.image %}
+                <div class="one-whole">
+                    {% if collection.title == 'Black Week Sale' or collection.title == 'FLASH SALE' or collection.title == 'Christmas Sale' or collection.title == 'January Sale'   %}
+                  		<div class="grid grid--uniform one-whole banner-row">
+                          <div class="grid__item medium-up--one-half small--one-half">
+                          	<img src="{{ collection.image | img_url: 'master' }}" alt="{{ collection.title }}" />
+                          </div>
+                          <div class="grid__item medium-up--one-half small--one-half">
+                          	<div class="black-sale-wrapper">
+                                <div class="black-sale-main">
+                                    {% if collection.title == 'Black Week Sale' %}
+                                    	<h1>FLASH SALE</h1>	
+                                  	{% else %}
+                                  		<h1 class="jan-sale">January Sale</h1>
+                                  	{% endif %}
+                                    <div class="sale-count-down"> 
+                                        {% if collection.title == 'Flash Sale' %}
+                                        	<span class="sale-heading">50% Off Ends In</span>
+                                        {% elsif collection.title == 'Christmas Sale' %}
+                                        	   <span class="sale-heading">20 % Off Ends In</span>
+                                      	{% elsif collection.title == 'January Sale' %}
+                                      		   <span class="sale-heading title"><i>Only this week:</i></span>
+                                      		   <span class="sale-heading">Save 20 % on all  products.</span>
+                                        {% else %}
+                                        	  <span class="sale-heading">Sale Ends In</span>
+                                        {% endif %}
+                                        {% if collection.title != 'January Sale' %}
+                                        <div class="countdown-digit-group day"> 
+                                            <span class="digit day-digit-1">0</span> 
+                                            <span class="digit day-digit-2">0</span> 
+                                            <span class="count-down-label">Days</span>
+                                        </div> 
+                                        <div class="countdown-digit-group hour"> 
+                                            <span class="digit hour-digit-1">0</span> 
+                                            <span class="digit hour-digit-2">0</span> 
+                                            <span class="count-down-label">Hours</span>
+                                        </div> 
+                                        <div class="countdown-digit-group mintues"> 
+                                            <span class="digit mintues-digit-1">0</span> 
+                                            <span class="digit mintues-digit-2">0</span> 
+                                            <span class="count-down-label">Minutes</span>
+                                        </div>
+                                        <div class="countdown-digit-group seconds small--hide">
+                                            <span class="digit seconds-digit-1"></span>
+                                            <span class="digit seconds-digit-2"></span>
+                                            <span class="count-down-label">Seconds</span>
+                                        </div>
+                                        <h1 id="countdown-time" class="hide"></h1>
+                                        {% endif %}
+                                    </div>
+                                    {% if collection.title == 'Black Week Sale' %}
+                                        <div class="medium-up--hide">
+                                            <span class="sale-gift"><strong>Get free gifts:</strong></span>
+                                            <span class="sale-info">Tote-Bag over {{ '15000'| money }}</span>
+                                            <span class="sale-info">Two Oils over {{ '20000'| money }}</span>
+                                            <span class="sale-info">Diffuser over {{ '30000'| money }}</span>
+                                        </div>
+                                        <div class="small--hide">
+                                            <span class="sale-gift"><strong>Get free gifts:</strong></span>
+                                            <span class="sale-info">Tote-Bag over {{ '15000'| money }}</span>
+                                            <span class="sale-info">Two Oils over {{ '20000'| money }}</span>
+                                            <span class="sale-info">Diffuser over {{ '30000'| money }}</span>
+                                        </div>
+                                        <span class="sale-info mb-10"><i><strong>NB</strong>: Only while supply lasts</i></span>
+                                    {% elsif collection.title == 'Christmas Sale'  %}
+                                        <span class="sale-info">Buy Diffuser - Get Free Tote-bag</span>
+                                        <span class="sale-info mb-10"><i><strong>NB</strong>: Only while supply lasts</i></span>
+                                    {% else %}
+                                  		{% comment %}
+                                        <span class="sale-info">Free tote bag on orders over {{ '15000'| money }}</span>
+                                        {% endcomment %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                          </div>
+                  		</div>
+                    {% else %}
+                        <div class="text-container flex-container">
+                            <div>
+                            <h1 class="mb-8">{{ collection.title }}</h1>
+                            {% if collection.description != blank %}
+                                <div class="desc">
+                                {{ collection.description }}
+                                </div>
+                            {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <script>
+                        var show_timer = {{ section.settings.display_timer }};
+                        var timer = '{{ section.settings.timer_date | append: ' ' | append: section.settings.timer_time }}';
+                    </script>
+                </div>
+                {% endif %}
+                {% comment %}
+                <div class="one-half large--one-half">
+                    <div class="text-container flex-container">
+                        <div>
+                        <h2 class="mb-5">{{ collection.title }}</h2>
+                        {% if collection.description != blank %}
+                            <div class="desc">
+                            {{ collection.description }}
+                            </div>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endcomment %}
+            </div>
+
+            <div class="mobile-filter">
+                <a href="javascript:void(0)" class="open-filter">CHOOSE FILTERS</a>
+            </div>
+
+            <div id="selected-filters" class="selected-filters desktop"> 
+                <span class="filter-display open"> 
+                    <span id="filter-display"></span> 
+                    <div id="clear-all-filters" class="clear-all">CLEAR FILTERS</div>
+                </span>
+            </div>
+
+            {% case section.settings.grid %}
+            {% when 2 %}
+                {%- assign grid_item_width = 'medium-up--one-half' -%}
+            {% when 3 %}
+                {%- assign grid_item_width = 'small--one-half medium-up--one-third' -%}
+            {% when 4 %}
+                {%- assign grid_item_width = 'small--one-half medium-up--one-quarter' -%}
+            {% when 5 %}
+                {%- assign grid_item_width = 'small--one-half medium-up--one-fifth' -%}
+            {% endcase %}
+            <div class="collection__main">
+                <ul class="{% if collection.products_count > 0 %} grid--view-items{% endif %} collection-matrix">
+                    {% for product in collection.products %}
+					{% if product.type != 'FREEGIFT_HIDDEN' %}
+                        {% assign sca_product = product %}{% assign sca_product_id_text = "," | append : sca_product.id | append : "," %}{% assign sca_price = sca_product.price %}{% assign sca_price_min = sca_product.price_min %}{% assign sca_price_max = sca_product.price_max %}{% assign sca_compare_at_price = sca_product.compare_at_price %}{% assign sca_compare_at_price_min = sca_product.compare_at_price_min %}{% assign sca_compare_at_price_max = sca_product.compare_at_price_max %}{% assign sca_product_available = sca_product.available %}{% assign sca_product_variantCount = sca_product.variants.size %}{% assign sca_compare_at_price_varies = sca_product.compare_at_price_varies %}{% assign sca_price_varies = sca_product.price_varies %}{% assign sca_has_only_default_variant = false %}{% capture sca_product_variants_json %}{{sca_product.variants | json }}{% endcapture %} {% capture sca_product_json %}{ {% if sca_all_gift_products_ids == null or sca_all_gift_products_ids contains sca_product_id_text %}{% assign sca_product_available = false %}{% assign sca_product_variantCount = 0 %}{% assign sca_has_only_default_variant = true %}{% assign sca_is_first_variant = true %}{% capture sca_variants_json %} [{% for variant in sca_product.variants %}{% unless variant.metafields.secomapp.freegifts %}{% unless variant.title contains '(Freegifts)' %}{% unless variant.title contains '% Off' %}{% unless variant.metafields.shappify_qb.qb_hide == "1" %}{% unless variant.metafields.shappify_bundle.is_bundle == "true" %}{% unless variant.metafields.brodev_scn.hide == "true" %}{% unless variant.metafields.wholesaler2.wholesale %}{% unless variant.metafields.Wholesaler.level %}{% unless variant.title contains '(Wholesale' %}{% if sca_is_first_variant%} {{ variant | json }}{% assign sca_price = variant.price %} {% assign sca_price_min = variant.price %} {% assign sca_price_max = variant.price %} {% assign sca_compare_at_price = variant.compare_at_price %} {% assign sca_compare_at_price_min = variant.compare_at_price %} {% assign sca_compare_at_price_max = variant.compare_at_price %} {% assign sca_product_available = variant.available %} {% assign sca_product_variantCount = 1 %} {% assign sca_is_first_variant = false%}{% else %},{{variant | json }} {% if sca_price_min >= variant.price %} {% assign sca_price_min = variant.price %} {% assign sca_price = variant.price %}{% endif %} {% if sca_price_max <= variant.price %} {% assign sca_price_max = variant.price %} {% endif %} {% if variant.compare_at_price %} {% if sca_compare_at_price_min==null or sca_compare_at_price_min >= variant.compare_at_price %} {% assign sca_compare_at_price_min = variant.compare_at_price %} {% assign sca_compare_at_price = variant.compare_at_price %} {% endif %} {% if sca_compare_at_price_max==null or sca_compare_at_price_max < variant.compare_at_price %} {% assign sca_compare_at_price_max = variant.compare_at_price %} {% endif %} {% endif %} {% if variant.available == true %} {% assign sca_product_available = true %} {% endif %} {% assign sca_product_variantCount = sca_product_variantCount | plus: 1 %}{% endif %}{% endunless %}{% endunless %}{% endunless %}{% endunless %}{% endunless %}{% endunless %}{% endunless %}{% endunless %}{% endunless %}{%endfor%} ]{% endcapture %}{% if sca_price_min < sca_price_max %}{% assign sca_price_varies = true %}{% else %}{% assign sca_price_varies = false %}{% endif %}{% if sca_compare_at_price_min < sca_compare_at_price_max %}{% assign sca_compare_at_price_varies = true %}{% else %}{% assign sca_compare_at_price_varies = false %}{% endif %}{% if sca_product_variantCount > 1 %}{% assign sca_has_only_default_variant = false %}{% endif %}{% if sca_product_variantCount == sca_product.variants.size %} "variants":{{ sca_product.variants }},{% else %}{%assign sca_product_variants_json = sca_variants_json %} "variants":{{ sca_variants_json }},{% endif %}{% else %} "variants":{{ sca_product_variants_json }},{% endif %} "id": {{sca_product.id}}, "title": {{sca_product.title | json}}, "handle": {{sca_product.handle | json}}, "description": {{sca_product.description | json}}, "published_at": "{{sca_product.published_at | date: "%Y-%m-%dT%H-%M-%S%:z" }}", "created_at": "{{sca_product.created_at | date: "%Y-%m-%dT%H-%M-%S%:z" }}", "vendor": {{sca_product.vendor | json}}, "type": {{sca_product.type | json}}, "tags": {{sca_product.tags | json}}, "price": {{sca_price}}, "price_min": {{sca_price_min}}, "price_max": {{sca_price_max}}, "available": {{sca_product.available}}, "price_varies": {{sca_price_varies}}, "compare_at_price": {{sca_compare_at_price}}, "compare_at_price_min": {{sca_compare_at_price_min}}, "compare_at_price_max": {{sca_compare_at_price_max}}, "compare_at_price_varies": {{sca_compare_at_price_varies}}, "images": {{sca_product.images | json}}, "featured_image": {{sca_product.featured_image | json }}, "options": {{sca_product.options | json}}, "media": {{sca_product.media | json }}, "content": {{sca_product.content | json }}} {% endcapture sca_product_json %}
+
+                        {% assign color_active = false %}
+                        {% for option in product.options %}
+                            {% if option == 'Color' %}
+                                {% assign color_active = true %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if sca_product_variantCount > 1 and color_active == true %}
+                            {% for option in product.options %}
+                                {% if option == 'Color' %}
+                                    {% assign index = forloop.index0 %}
+                                    {% assign colorlist = '' %}
+                                    {% assign color = '' %}
+                                    {% for variant in product.variants %}
+{% unless variant.metafields.secomapp.freegifts %}
+{% unless variant.title contains '% off)' %}
+
+                                        {% capture color %}
+                                            {{ variant.options[index] }}
+                                        {% endcapture %}
+
+                                        {% unless colorlist contains color %}
+                                            <li class="grid__item grid__item--{{section.id}} {{ grid_item_width }} product-block product__thumbnail">
+                                            {% include 'product-card-grid-variant', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
+                                            </li>
+                                            {% capture tempList %}
+                                                {{colorlist | append: color | append: " " }}
+                                            {% endcapture %}
+                                            {% assign colorlist = tempList %}
+                                        {% endunless %}
+
+{% endunless %}
+{% endunless %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <li class="grid__item--{{section.id}} {{ grid_item_width }} product-block product__thumbnail" data-filters="{{ product.tags | join: '|' }}" data-price="{{ sca_price }}">
+                                {% include 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
+                            </li>
+                        {% endif %}
+                  {%endif%}
+                    {% endfor %}
+                </ul>
+            </div>
+            <p class="no-results text-center hide">No products found</p>
+        </div>
+    </div>
+</div>
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": {
+    "da": "Kollektionssider",
+    "de": "Kategorie-Seiten",
+    "en": "Collection pages",
+    "es": "Páginas de colección",
+    "fi": "Kokoelman sivut",
+    "fr": "Pages de collections",
+    "hi": "कलेक्शन पेज",
+    "it": "Pagine di collezioni",
+    "ja": "コレクションページ",
+    "ko": "컬렉션 페이지",
+    "ms": "Halaman koleksi",
+    "nb": "Samlingssider",
+    "nl": "Collectiepagina's",
+    "pt-BR": "Páginas de coleções",
+    "pt-PT": "Páginas de Coleções",
+    "sv": "Produktseriesidor",
+    "th": "หน้าคอลเลกชัน",
+    "zh-CN": "产品系列页面",
+    "zh-TW": "商品系列頁面"
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": {
+        "da": "Layout",
+        "de": "Layout",
+        "en": "Layout",
+        "es": "Diseño",
+        "fi": "Asettelu",
+        "fr": "Mise en page",
+        "hi": "लेआउट",
+        "it": "Layout",
+        "ja": "レイアウト",
+        "ko": "레이아웃",
+        "ms": "Tata letak",
+        "nb": "Oppsett",
+        "nl": "Opmaak",
+        "pt-BR": "Layout",
+        "pt-PT": "Esquema",
+        "sv": "Layout",
+        "th": "เลย์เอาต์",
+        "zh-CN": "布局",
+        "zh-TW": "版面配置"
+      },
+      "default": "grid",
+      "options": [
+        {
+          "value": "grid",
+          "label": {
+            "da": "Gitter",
+            "de": "Raster",
+            "en": "Grid",
+            "es": "Cuadrícula",
+            "fi": "Ruudukko",
+            "fr": "Grille",
+            "hi": "ग्रिड",
+            "it": "Griglia",
+            "ja": "グリッド",
+            "ko": "그리드",
+            "ms": "Grid",
+            "nb": "Rutenett",
+            "nl": "Raster",
+            "pt-BR": "Grade",
+            "pt-PT": "Grelha",
+            "sv": "Rutnät",
+            "th": "กริด",
+            "zh-CN": "网格",
+            "zh-TW": "網格"
+          }
+        },
+        {
+          "value": "list",
+          "label": {
+            "da": "Liste",
+            "de": "Liste",
+            "en": "List",
+            "es": "Lista",
+            "fi": "Luettelo",
+            "fr": "Liste",
+            "hi": "सूची",
+            "it": "Elenco",
+            "ja": "リスト",
+            "ko": "목록",
+            "ms": "Senarai",
+            "nb": "Liste",
+            "nl": "Lijst",
+            "pt-BR": "Lista",
+            "pt-PT": "Lista",
+            "sv": "Lista",
+            "th": "รายการ",
+            "zh-CN": "列表",
+            "zh-TW": "清單"
+          }
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "grid",
+      "label": {
+        "da": "Produkter pr. række (kun gitter)",
+        "de": "Produkte per Reihe (nur Raster)",
+        "en": "Products per row (grid only)",
+        "es": "Productos por fila (solo cuadrícula)",
+        "fi": "Tuotteita per rivi (vain ruudukko)",
+        "fr": "Produits par rangée (grille uniquement)",
+        "hi": "उत्पाद प्रति पंक्ति (केवल ग्रिड)",
+        "it": "Prodotti per riga (solo griglia)",
+        "ja": "行あたりの商品数（グリッドのみ）",
+        "ko": "열 별 제품 (그리드 전용)",
+        "ms": "Produk setiap baris (grid sahaja)",
+        "nb": "Produkter per rad (kun rutenett)",
+        "nl": "Producten per rij (alleen raster)",
+        "pt-BR": "Produtos por linha (somente grade)",
+        "pt-PT": "Produtos por linha (somente grelha)",
+        "sv": "Produkter per rad (endast rutnät)",
+        "th": "สินค้าต่อแถว (กริดเท่านั้น)",
+        "zh-CN": "每行产品数（仅限网格）",
+        "zh-TW": "每列產品數 (僅限網格)"
+      },
+      "default": 4,
+      "min": 2,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": {
+        "da": "Vis kollektionsbillede",
+        "de": "Kategorie-Foto anzeigen",
+        "en": "Show collection image",
+        "es": "Mostrar imagen de la colección",
+        "fi": "Näytä kokoelman kuva",
+        "fr": "Afficher l'image de la collection",
+        "hi": "कलेक्शन इमेज दिखाएं",
+        "it": "Mostra immagine collezione",
+        "ja": "コレクションの画像を表示する",
+        "ko": "컬렉션 이미지 표시",
+        "ms": "Tunjukkan imej koleksi",
+        "nb": "Vis samlingsbilde",
+        "nl": "Collectieafbeelding weergeven",
+        "pt-BR": "Exibir imagem da coleção",
+        "pt-PT": "Mostrar imagem da coleção",
+        "sv": "Visa produktseriebilder",
+        "th": "แสดงรูปภาพคอลเลกชัน",
+        "zh-CN": "显示产品系列图片",
+        "zh-TW": "顯示商品系列圖片"
+      },
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": {
+        "da": "Vis produktleverandører",
+        "de": "Produkt-Lieferanten anzeigen",
+        "en": "Show product vendors",
+        "es": "Mostrar proveedores del producto",
+        "fi": "Näytä tuotteen myyjät",
+        "fr": "Afficher les vendeurs",
+        "hi": "उत्पाद विक्रेताओं को दिखाएं",
+        "it": "Mostra fornitori prodotto",
+        "ja": "商品の販売元を表示する",
+        "ko": "제품 공급 업체 표시",
+        "ms": "Tunjukkan vendor produk",
+        "nb": "Vis produktleverandører",
+        "nl": "Productleveranciers weergeven",
+        "pt-BR": "Exibir fornecedores do produto",
+        "pt-PT": "Mostrar fornecedores do produto",
+        "sv": "Visa produktleverantörer",
+        "th": "แสดงผู้ขายสินค้า",
+        "zh-CN": "显示产品厂商",
+        "zh-TW": "顯示產品廠商"
+      },
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "sort_enable",
+      "label": {
+        "da": "Aktivér sortering",
+        "de": "Sortieren erlauben",
+        "en": "Enable sorting",
+        "es": "Habilitar la función ordenar",
+        "fi": "Ota lajittelu käyttöön",
+        "fr": "Activer le tri",
+        "hi": "क्रमबद्ध करना सक्षम करें",
+        "it": "Permetti di ordinare",
+        "ja": "並べ替えを有効にする",
+        "ko": "정렬 사용",
+        "ms": "Dayakan penyusunan",
+        "nb": "Aktiver sortering",
+        "nl": "Sortering inschakelen",
+        "pt-BR": "Habilitar organização",
+        "pt-PT": "Ativar ordenação",
+        "sv": "Aktivera sortering",
+        "th": "เปิดใช้งานการจัดเรียง",
+        "zh-CN": "启用排序",
+        "zh-TW": "啟用排序"
+      },
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "tags_enable",
+      "label": {
+        "da": "Aktivér tagfiltrering",
+        "de": "Tag-Filtern erlauben",
+        "en": "Enable tag filtering",
+        "es": "Habilitar filtro de etiquetas",
+        "fi": "Ota tunnisteiden suodatus käyttöön",
+        "fr": "Activer le filtrage par balises",
+        "hi": "टैग फ़िल्टर करना सक्षम करें",
+        "it": "Attiva filtro tag",
+        "ja": "タグでの絞り込みを有効にする",
+        "ko": "태그 필터링 사용",
+        "ms": "Dayakan penapisan tag",
+        "nb": "Aktiver taggfiltrering",
+        "nl": "Filteren op tags inschakelen",
+        "pt-BR": "Habilitar filtragem de tags",
+        "pt-PT": "Ativar filtragem por etiqueta",
+        "sv": "Aktivera taggfiltrering",
+        "th": "เปิดใช้การกรองแท็ก",
+        "zh-CN": "启用标签筛选",
+        "zh-TW": "啟用標籤篩選功能"
+      },
+      "default": true
+    },
+    {
+        "type": "header",
+        "content": "Black Week Sale"
+    },
+    {
+        "type": "checkbox",
+        "id": "display_timer",
+        "label": "Show timer"
+    },
+    {
+        "type": "text",
+        "id": "timer_date",
+        "label": "Timer date",
+        "info": "Example: 2021/07/02"
+    },
+    {
+        "type": "text",
+        "id": "timer_time",
+        "label": "Timer time",
+        "info": "Example: 22:00:00"
+    }
+  ],
+  "blocks": [
+      {
+        "type": "collections",
+        "name": "Collections",
+        "limit": 1,
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "default": "COLLECTION"
+            },
+            {
+                "type": "link_list",
+                "id": "menu",
+                "label": "Menu"
+            }
+        ]
+      },
+      {
+        "type": "filters",
+        "name": "Filters",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Section settings"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "default": "FILTERS"
+            },
+            {
+                "type": "text",
+                "id": "items",
+                "label": "Items",
+                "info": "Separator is '|' or ','"
+            },
+            {
+                "type": "select",
+                "id": "type_of_tags_input",
+                "label": "Type of tags input",
+                "default": "radio",
+                "options": [
+                    {
+                        "value": "radio",
+                        "label": "Single Choice"
+                    },
+                    {
+                        "value": "checkbox",
+                        "label": "Multiple Choice"
+                    }
+                ]
+            }
+        ]
+      },
+      {
+        "type": "filter_by_price",
+        "name": "Filter by price",
+        "limit": 1,
+        "settings": [
+            {
+                "type": "header",
+                "content": "Section settings"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "default": "PRICE"
+            }
+        ]
+      }
+  ]
+}
+{% endschema %}

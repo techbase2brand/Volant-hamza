@@ -1,0 +1,38 @@
+ <div class="language-selector-wrapper">
+    <div class="language-selector closed">
+        {%- assign languages = 'de@Deutsch|https://de.volantaroma.com#EUR,
+        nl@Nederlands|https://nl.volantaroma.com#EUR,
+        dk@Dansk|https://volant.dk#DKK,
+        uk@English|https://volantaroma.co.uk#GBP,
+        us@English|https://volantaroma.com#EUR,
+        es@Español|https://es.volantaroma.com#EUR,
+        fr@Français|https://fr.volantaroma.com#EUR,
+        it@Italiano|https://it.volantaroma.com#EUR,
+        no@Norsk|https://volant.no#NOK,
+        fi@Suomi|https://fi.volantaroma.com#EUR,
+        se@Svenska|https://volantaroma.se#SEK,
+        cs@Čeština|https://cs.volantaroma.com#EUR,
+        pl@Polski|https://pl.volantaroma.com#EUR,
+        pt@Português|https://pt.volantaroma.com#EUR'
+    -%}
+        {% assign languages = languages | split: ',' %}
+        {%- assign list = '' -%}
+        <div class="current-language">
+        {%- for language in languages -%}
+        {%- assign flag = language | split: '@' | first | strip -%}
+        {%- assign currency_data = language | split: '#' | last -%}
+        {%- assign language_data = language | split: '#' | first -%}
+        {%- assign language_data = language_data | split: '@' | last -%}
+        {%- assign title = language_data | split: '|' | first -%}
+        {%- assign url = language_data | split: '|' | last -%}
+            {%- capture listitem -%}
+            <li class="language flag-{{ flag }}"><a href="{{ url }}" aria-label="{{ title }}">{{ title }} <div class="currency">({{ currency_data }})</div></a></li>
+            {%- endcapture -%}
+            {%- assign list = list | append: listitem -%}
+        {%- endfor -%}
+        </div>
+        <ul class="hide">
+        {{ list }}
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+
+
+@media screen and (min-width:385px) and (max-width:415px) {
+
+    
+    .offer_ends_review_div{
+        margin-right: 13px !important;
+        width: auto !important;
+    }
+
+    .offer_ends_review_div img{
+        width: 230px !important;
+        height: auto !important;
+    }
+
+    .offer_ends_review{
+        /* width: 100% !important; */
+        left: 160px;
+    }
+    .offer_ends_review p{
+        width: 100% !important;
+    }
+}
+
+@media screen and (max-width:385px){
+    .offer_ends_review_div{
+        margin-right: 13px !important;
+        width: auto !important;
+    }
+
+    .offer_ends_review_div img{
+        width: 99.8% !important;
+        height: auto !important;
+    }
+
+    .offer_ends_review{
+        width: 100% !important;
+        position: unset !important;
+        /* left: 0px;
+        top: 65%; */
+    }
+    .offer_ends_review p{
+        width: 100% !important;
+    }
+}
+
+@media screen and (max-width:400px){
+    .customized_title{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+

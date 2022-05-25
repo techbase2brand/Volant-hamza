@@ -1,0 +1,12 @@
+.best_quality_video div{
+    width: auto !important;
+}
+
+@media screen and (max-width: 767px) {
+    .best_quality_video div{
+        height: auto !important;
+    }
+    .best_quality_video div video{
+        height: auto !important;
+    }   
+}

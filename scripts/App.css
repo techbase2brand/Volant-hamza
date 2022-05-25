@@ -1,0 +1,65 @@
+@font-face {
+  font-family: "Hatton";
+  font-weight: 500;
+  src: local("Hatton"), url(./fonts/Hatton-Ultralight.otf) format("opentype");
+}
+
+@font-face {
+  font-family: "Hatton";
+  font-weight: 400;
+  src: local("Hatton"), url(./fonts/Hatton-Semibold.otf) format("opentype");
+}
+
+@font-face {
+  font-family: "Hatton";
+  font-weight: 900;
+  src: local("Hatton"), url(./fonts/Hatton-Medium.otf) format("opentype");
+}
+
+/* .all-font {
+  font-family: "Hatton";
+  font-family: "Mulish", sans-serif;
+} */
+
+.font-hatton {
+  font-family: "Hatton";
+}
+
+.family-hatton{
+  font-family: "Hatton";
+}
+
+* {
+  font-family: "Mulish", sans-serif;
+}
+
+.carousel-caption-top{
+  right:15px !important;
+  font-family: "Mulish";
+  text-align: right !important;
+  font-size: 45px !important;
+  font-weight: 400 !important;
+  color: rgb(222, 171, 91) !important;
+}
+
+.bg-lightbrown{
+  background-color: rgba(222, 171, 91, 0.2) !important;
+}
+
+.text-lightbrown{
+  color: rgb(222, 171, 91) !important;
+}
+
+.thumbnails{
+  overflow: hidden !important;
+}
+
+/* .custom-marker::marker{
+  display: none;
+} */
+/* .custom-marker::after{
+  content: ">";
+  position: absolute;
+  width: 0;
+  height: 0;
+} */
