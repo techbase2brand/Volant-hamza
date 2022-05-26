@@ -596,7 +596,7 @@ const formatTime = (time) => {
               <div className="">
                 <h1 className="font-normal headline text-base leading-5 md:text-[27px] md:leading-[34px] w-custom">The Volant Diffuser</h1>
               </div>
-              <div className="text-base leading-5 md:text-[22px] md:leading-7">
+              <div className="text-base leading-5 md:text-[22px] md:leading-7 price-custom">
                 <h1><span style={{ color: "#DEAB5B" }}>69.5€</span> <span className="line-through text-[#6f6f6f]">139€</span></h1>
               </div>
               <div className="md:mt-0 mt-3.5 flex flex-col items-center md:justify-end w-[125px] md:w-auto">
