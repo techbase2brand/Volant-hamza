@@ -644,6 +644,20 @@
            sessionStorage.setItem('save50' , 0)
         }
       </script>
+	  <script>
+        if(sessionStorage.getItem('save50') == 1){
+          fetch('/cart/clear.js', {
+            method: 'POST'
+          })
+          .then(response => {
+            return response.json();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+           sessionStorage.setItem('save50' , 0)
+        }
+      </script>
 	</body>
 </html>
 {% endcapture %}

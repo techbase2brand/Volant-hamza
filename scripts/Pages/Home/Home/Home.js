@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Banner from "../Banner/Banner";
 import Date from "../Date/Date";
 import Enhances from "../Enhances/Enhances";
@@ -27,6 +27,7 @@ import CompareTable from "../CompareTable/CompareTable";
 import GetTheOffer from "../GetTheOffer/GetTheOffer";
 
 const Home = () => {
+
   return (
       <>
       <Banner></Banner>

@@ -147,10 +147,10 @@ const Product = () => {
 
 
   const [variant , setVariants] = useState({
-    energy:{cart:false , qty:0 , id:37675526258846, price:20 , compare:25},
-    sleep:{cart:false , qty:0 , id:37675524653214, price:20 , compare:25},
-    relax:{cart:false , qty:0 , id:37675525374110, price:16 , compare:20},
-    spa:{cart:false , qty:0 , id:37675515347102, price:20 , compare:25},
+    energy:{cart:false , qty:0 , id:41655706583198, price:20 , compare:25},
+    sleep:{cart:false , qty:0 , id:41655717003422, price:20 , compare:25},
+    relax:{cart:false , qty:0 , id:41655719067806, price:16 , compare:20},
+    spa:{cart:false , qty:0 , id:41655725654174, price:20 , compare:25},
     ebook:{cart:true , qty:1 , id:37765547491486, price:39 , compare:39},
   })
 
@@ -194,7 +194,10 @@ const Product = () => {
 
     let product = [{
       'id': id,
-      'quantity': 1
+      'quantity': 1,
+      'properties': {
+        '_d': 'save50'
+      }
     }];
     setBtnDisable('pointer-events-none')
     let formData = {
@@ -309,6 +312,18 @@ const Product = () => {
 
   useEffect(() => {
     checkBtn()
+    const details = document.querySelectorAll("details");
+    // Add the onclick listeners.
+    details.forEach((targetDetail) => {
+      targetDetail.addEventListener("click", () => {
+        // Close all the details that are not targetDetail.
+        details.forEach((detail) => {
+          if (detail !== targetDetail) {
+            detail.removeAttribute("open");
+          }
+        });
+      });
+    });
   })
 const formatTime = (time) => {
   return String(time).padStart(2, "0");
@@ -596,7 +611,7 @@ const formatTime = (time) => {
               <div className="">
                 <h1 className="font-normal headline text-base leading-5 md:text-[27px] md:leading-[34px] w-custom">The Volant Diffuser</h1>
               </div>
-              <div className="text-base leading-5 md:text-[22px] md:leading-7">
+              <div className="text-base leading-5 md:text-[22px] md:leading-7 price-custom">
                 <h1><span style={{ color: "#DEAB5B" }}>69.5€</span> <span className="line-through text-[#6f6f6f]">139€</span></h1>
               </div>
               <div className="md:mt-0 mt-3.5 flex flex-col items-center md:justify-end w-[125px] md:w-auto">
@@ -844,19 +859,19 @@ const formatTime = (time) => {
                           <div className="grid grid-cols-2">
                             <div className="flex mb-5 items-center">
                               <img src={e1} alt="" className="w-[53px]"/>
-                              <h1 className="text-xs w-[72px]">Grapefruit Energising</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Grapefruit</span> Energising</h1>
                             </div>
                             <div className="flex mb-5 items-center">
                               <img src={e2} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Bergamot Invigorating</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Bergamot</span> Invigorating</h1>
                             </div>
                             <div className="flex items-center">
                               <img src={e3} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Lime <br/>Bright</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Lime</span> <br/>Bright</h1>
                             </div>
                             <div className="flex items-center">
                               <img src={e4} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Amyris Refreshing</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Amyris</span> Refreshing</h1>
                             </div>
                           </div>
                         </div>
@@ -995,23 +1010,19 @@ const formatTime = (time) => {
                           <div className="grid grid-cols-2">
                             <div className="flex mb-5 items-center">
                               <img src={s1} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Lavender
-Light</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Lavender</span> Light</h1>
                             </div>
                             <div className="flex mb-5 items-center">
                               <img src={s2} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Palma Rosa
-Cosy</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Palma Rosa</span> Cosy</h1>
                             </div>
                             <div className="flex items-center">
                               <img src={s3} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Frankincense
-Relaxing</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Frankincense</span> Relaxing</h1>
                             </div>
                             <div className="flex items-center">
                               <img src={s4} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Chamomile
-Sweet</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Chamomile</span> Sweet</h1>
                             </div>
                           </div>
                         </div>
@@ -1153,19 +1164,19 @@ Sweet</h1>
                           <div className="grid grid-cols-2">
                             <div className="flex mb-5 items-center">
                               <img src={r1} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Ylan Ylang Sweeet</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Ylan Ylang</span> Sweeet</h1>
                             </div>
                             <div className="flex mb-5 items-center">
                               <img src={r2} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Palma Rosa Fresh</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Palma Rosa</span> Fresh</h1>
                             </div>
                             <div className="flex items-center">
                               <img src={r3} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Eucalyptus Bright</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Eucalyptus</span> Bright</h1>
                             </div>
                             <div className="flex items-center">
                               <img src={r4} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Grapefruit Light</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Grapefruit</span> Light</h1>
                             </div>
                           </div>
                         </div>
@@ -1303,15 +1314,15 @@ Sweet</h1>
                           <div className="grid grid-cols-2">
                             <div className="flex mb-5 items-center">
                               <img src={sp1} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Eucalyptus Antibacterial</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Eucalyptus</span> Antibacterial</h1>
                             </div>
                             <div className="flex mb-5 items-center">
                               <img src={sp2} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Geranium Calming</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Geranium</span> Calming</h1>
                             </div>
                             <div className="flex items-center">
                               <img src={sp3} alt="" className="w-[53px]" />
-                              <h1 className="text-xs w-[72px]">Bergamot Uplifting</h1>
+                              <h1 className="text-xs w-[72px]"><span className="font-bold">Bergamot</span> Uplifting</h1>
                             </div>
                             
                           </div>

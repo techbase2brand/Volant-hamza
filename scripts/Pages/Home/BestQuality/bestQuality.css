@@ -8,5 +8,13 @@
     }
     .best_quality_video div video{
         height: auto !important;
-    }   
+    }  
+    .custom-vide-w {
+        width: 100%;
+        height: 380px !important;
+    }     
+}
+.custom-vide-w {
+    width: 100%;
+    height: 500px;
 }

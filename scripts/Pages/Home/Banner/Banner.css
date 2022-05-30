@@ -37,7 +37,9 @@
     line-height: 32.6px !important;
   }
 }
+@media screen and (min-width:768px){
 .pl-e
 {
   transform: translate(-10px, 0px);
+}
 }

@@ -120,7 +120,7 @@ const Family = () => {
                   </p>
                 </div>
                 <div className="w-[410px] text-[22px] leading-[27px]">
-                  <p>“3 things I just love with this one. ”</p>
+                  <p>“3 things I just love with this one.</p>
                   <ul className="list-disc">
                     <li className="satisfaction_li"><span>Smells fantastic</span></li>
                     <li className="satisfaction_li"><span>Lovely design</span></li>

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import ReactPlayer from 'react-player';
 import "./bestQuality.css";
 import imgright from "./BestQuality.png";
-import videosrc from "./handmade-diffuser.mp4";
+import videosrc from "./bestquality.mp4";
 
 const BestQuality = () => {
 
@@ -35,11 +35,8 @@ const BestQuality = () => {
             </div>
             <div className="order-1 md:order-2">
               <h1 className="md:hidden family-hatton text-[22px] leading-[27px] md:text-[32px] md:leading-[40px] my-4 text-center">at the best possible quality.</h1>
-              <div className="max-w-[677px] best_quality_video">
-              <ReactPlayer playsinline width={677} height={380} url={videosrc} loop={true} playing={playings} onReady={() => handleOnReady} config={{ file: { attributes: {
-    autoPlay: true,
-    muted: true
-  }}}} />
+              <div className="w-full best_quality_video">
+              <iframe class="pf-ifr custom-vide-w" src="https://player.vimeo.com/video/712414096?api=1&amp;autoplay=false&amp;loop=false&amp;muted=false&amp;portrait=false&amp;byline=false&amp;title=false" allowfullscreen="" data-muted="false" title="vimeo-video" allow="autoplay" loading="lazy"></iframe>
               </div>
               
             </div>

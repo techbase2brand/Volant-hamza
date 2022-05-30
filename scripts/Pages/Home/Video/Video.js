@@ -34,7 +34,8 @@ const screenType = useScreenType();
   return (
     <div className="px-4 mx-auto xl:mt-[89px]" id={screenType.isMobile ? '' : 'videoSection'}>
       <div className="">
-      <iframe className="video-container mx-auto w-full aspect-video" src="https://www.youtube.com/embed/uY939VUw-ws" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+      {/* <iframe className="video-container mx-auto w-full aspect-video" src="https://vimeo.com/708424316" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe> */}
+      <iframe className="video-container mx-auto w-full aspect-video"  src="https://player.vimeo.com/video/708424316?h=096dfaafef" width="640" height="auto" frameborder="0" allow="fullscreen" allowfullscreen></iframe>
       </div>
     </div>
   );
